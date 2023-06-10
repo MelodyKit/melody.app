@@ -1,27 +1,19 @@
 <template>
-  <WindowControls v-if="isApp"/>
-  <MenuCollection v-if="isAuthorized" isSearch/>
-  <LoginForm v-else/>
+  <AppLayout title="Search">
+    <template #header>
+      <input type="text" class="rounded-full px-4 py-1 dark:bg-neutral-800 placeholder-neutral-500" placeholder="Search"/>
+    </template>
+    <p>Welcome to da search page!!!</p>
+  </AppLayout>
 </template>
 
 <script>
 import { defineComponent } from "vue";
+import AppLayout from "@/components/AppLayout.vue";
 
 export default defineComponent({
   name: "SearchView",
-  computed: {
-    isAuthorized() {
-      return this.$store.getters.isAuthorized;
-    },
-    isApp() {
-      return Boolean(window.__TAURI_METADATA__);
-    },
-  },
+  components: {AppLayout},
 });
 </script>
 
-<script setup>
-import LoginForm from "../components/LoginForm.vue";
-import MenuCollection from "../components/MenuCollection.vue";
-import WindowControls from "../components/WindowControls.vue";
-</script>

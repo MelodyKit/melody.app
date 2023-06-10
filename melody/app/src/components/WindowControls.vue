@@ -1,6 +1,6 @@
 <template>
   <div data-tauri-drag-region class="flex justify-end select-none">
-    <div @click="control(MINIMIZE)" class="px-4 py-1 rounded-bl-xl bg-white dark:bg-black hover:bg-neutral-200 dark:hover:bg-neutral-800">
+    <div @click="control(MINIMIZE)" class="px-4 py-1 bg-white dark:bg-black hover:bg-neutral-200 dark:hover:bg-neutral-800">
       <i class="fa-solid fa-minus"></i>
     </div>
     <div @click="control(RESTORE)" class="px-4 py-1 bg-white dark:bg-black hover:bg-neutral-200 dark:hover:bg-neutral-800">
