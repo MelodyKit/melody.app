@@ -1,5 +1,5 @@
 import { useSelfStore } from "@/store/modules/self";
-import { useTokenStore } from "./store/modules/token";
+import { useTokensStore } from "@/store/modules/tokens";
 
 export const isApp = () => {
     // @ts-ignore
@@ -7,7 +7,7 @@ export const isApp = () => {
 }
 
 export const isAuthorized = () => {
-    return useTokenStore().authorized;
+    return useTokensStore().authorized;
 }
 
 export const isLoaded = () => {

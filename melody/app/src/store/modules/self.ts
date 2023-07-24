@@ -4,9 +4,9 @@ import { defineStore } from "pinia";
 import { PlayerSettings } from "@/models/playerSettings";
 import { User } from "@/models/user";
 import { UserSettings } from "@/models/userSettings";
-import { authorizationHeader } from "@/store/utils";
+import { authorizationAccessHeader } from "@/store/utils";
 
-import { useTokenStore } from "@/store/modules/token";
+import { useTokensStore } from "@/store/modules/tokens";
 
 interface State {
     self: User | null;
@@ -72,28 +72,28 @@ export const useSelfStore = defineStore(
                 // await this.fetchPlayerSettings();
             },
             async fetchSelf() {
-                let token = useTokenStore().stateToken;
+                let tokens = useTokensStore().stateTokens;
 
-                let {data} = await axios.get("/me", {headers: authorizationHeader(token)});
+                let {data} = await axios.get("/me", {headers: authorizationAccessHeader(tokens)});
 
                 let self = User.fromModel(data);
 
                 this.setSelf(self);
             },
             async fetchSettings() {
-                let token = useTokenStore().stateToken;
+                let tokens = useTokensStore().stateTokens;
 
-                let {data} = await axios.get("/me/settings", {headers: authorizationHeader(token)});
+                let {data} = await axios.get("/me/settings", {headers: authorizationAccessHeader(tokens)});
 
                 let settings = UserSettings.fromModel(data);
 
                 this.setSettings(settings);
             },
             async fetchPlayerSettings() {
-                let token = useTokenStore().stateToken;
+                let tokens = useTokensStore().stateTokens;
 
                 let {data} = await axios.get(
-                    "/me/player/settings", {headers: authorizationHeader(token)}
+                    "/me/player/settings", {headers: authorizationAccessHeader(tokens)}
                 );
 
                 let playerSettings = PlayerSettings.fromModel(data);

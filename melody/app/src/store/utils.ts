@@ -1,5 +1,15 @@
-import { Token } from "@/models/token";
+import { Tokens } from "@/models/tokens";
 
-export function authorizationHeader(token: Token) {
-    return {"Authorization": `${token.tokenType} ${token.token}`};
+const DEFAULT_TOKEN_TYPE = "Bearer";
+
+export function authorizationDefaultHeader(token: string) {
+    return {"Authorization": `${DEFAULT_TOKEN_TYPE} ${token}`};
+}
+
+export function authorizationAccessHeader(tokens: Tokens) {
+    return {"Authorization": `${tokens.tokenType} ${tokens.accessToken}`};
+}
+
+export function authorizationRefreshHeader(tokens: Tokens) {
+    return {"Authorization": `${tokens.tokenType} ${tokens.refreshToken}`};
 }

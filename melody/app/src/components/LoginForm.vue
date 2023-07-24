@@ -7,7 +7,7 @@
           <h1 class="text-xl text-neutral-900 md:text-2xl dark:text-neutral-50">
             Log in to your account
           </h1>
-          <form class="space-y-4 md:space-y-6" @submit.prevent="submit">
+          <form class="space-y-4 md:space-y-6" @submit.prevent="login">
             <div>
               <label for="email" class="block mb-2 text-neutral-900 dark:text-neutral-50">Email</label>
               <input type="email" name="email" v-model="userData.email" class="bg-neutral-50 border border-neutral-300 text-neutral-900 sm:text-sm font-mono rounded-lg block w-full p-2.5 dark:bg-neutral-700 dark:border-neutral-600 dark:placeholder-neutral-400 dark:text-neutral-50" placeholder="email@example.com" required>
@@ -33,8 +33,8 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
-import { UserData } from "@/models/userData";
-import { useTokenStore } from "@/store/modules/token";
+import { UserData } from "@/models/data/user";
+import { useTokensStore } from "@/store/modules/tokens";
 
 export default defineComponent({
   name: "LoginForm",
@@ -47,8 +47,8 @@ export default defineComponent({
     };
   },
   methods: {
-    async submit() {
-      const store = useTokenStore();
+    async login() {
+      const store = useTokensStore();
 
       await store.login(this.userData);
     }

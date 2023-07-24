@@ -1,28 +1,15 @@
 <template>
-  <div class="flex flex-col h-screen bg-black" v-if="isAuthorized()">
+  <div class="flex flex-col h-screen bg-white dark:bg-black" v-if="isAuthorized()">
     <header data-tauri-drag-region class="flex items-center justify-between">
-      <div class="flex items-center space-x-4 px-4">
-        <button type="button">
-          <i class="fa-solid fa-ellipsis w-5 h-auto text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-50"></i>
-        </button>
-        <button type="button" @click="back()">
-          <i class="fa-solid fa-chevron-left w-2.5 h-auto text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-50"></i>
-        </button>
-        <button type="button" @click="forward()">
-          <i class="fa-solid fa-chevron-right w-2.5 h-auto text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-50"></i>
-        </button>
-      </div>
+      <NavigationControls/>
       <WindowControls v-if="isApp()"/>
     </header>
     <div class="flex grow justify-between z-40">
       <SideBar/>
       <div class="flex flex-col grow">
-        <div class="flex flex-col grow rounded-tl-lg dark:bg-neutral-900">
+        <div class="flex flex-col grow rounded-tl-lg bg-neutral-50 dark:bg-neutral-900">
           <div class="flex justify-between items-center w-full px-4 py-2 gap-2">
-            <h1 class="font-bold text-3xl">{{ title }}</h1>
-            <div class="flex grow">
-              <slot name="header"/>
-            </div>
+            <h1 class="text-3xl">{{ title }}</h1>
             <SmallMenu/>
           </div>
           <div class="grow" :class="{'p-4': decoration}">
@@ -39,6 +26,13 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
+import LoginForm from "@/components/LoginForm.vue";
+import NavigationControls from "@/components/NavigationControls.vue";
+import PlayerControls from "@/components/PlayerControls.vue";
+import SmallMenu from "@/components/SmallMenu.vue";
+import SideBar from "@/components/SideBar.vue";
+import WindowControls from "@/components/WindowControls.vue";
+
 export default defineComponent({
   name: "AppLayout",
   props: {
@@ -48,22 +42,12 @@ export default defineComponent({
       default: true
     }
   },
-  methods: {
-    back() {
-      this.$router.back();
-    },
-    forward() {
-      this.$router.forward();
-    },
+  components: {
+    LoginForm, NavigationControls, PlayerControls, SmallMenu, SideBar, WindowControls
   },
 });
 </script>
 
 <script setup lang="ts">
-import { isAuthorized, isApp } from "@/utils";
-import LoginForm from "@/components/LoginForm.vue";
-import PlayerControls from "@/components/PlayerControls.vue";
-import SmallMenu from "@/components/SmallMenu.vue";
-import SideBar from "@/components/SideBar.vue";
-import WindowControls from "@/components/WindowControls.vue";
+import { isApp, isAuthorized } from "@/utils";
 </script>

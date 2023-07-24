@@ -2,7 +2,6 @@
   <footer class="flex z-50">
     <div class="hidden lg:flex py-5 px-6 w-full h-full bg-neutral-200 dark:bg-neutral-800">
       <div class="flex items-center justify-start w-1/3">
-
       </div>
       <div class="flex items-center justify-center w-1/3 gap-x-8">
         <div class="relative">
