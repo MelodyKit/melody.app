@@ -39,7 +39,7 @@ def build_command(input: Path, output: Path, watch: bool) -> Sequence[str]:
     return arguments
 
 
-SHELL = True
+SHELL = False
 
 
 @entrypoint(__name__)
