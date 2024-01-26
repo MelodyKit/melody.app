@@ -21,29 +21,6 @@ const HTTP_UNAUTHORIZED = 401;
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = BASE_URL;
 
-axios.interceptors.response.use(
-    (response) => response,
-    async (error: AxiosError<any>) => {
-        if (error.response?.status != HTTP_UNAUTHORIZED) {
-            throw error;
-        }
-
-        const store = useTokensStore();
-
-        await store.refresh();
-
-        const config = error.config;
-
-        if (config) {
-            config.headers[AUTHORIZATION] = authorizationAccess(store.stateTokens);
-
-            return await axios.request(config);
-        } else {
-            throw new Error("config is not present");
-        }
-    }
-);
-
 const pinia = createPinia();
 
 pinia.use(piniaPluginPersistedState);
