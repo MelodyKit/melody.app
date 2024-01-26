@@ -31,10 +31,20 @@ export class Tokens {
     refreshToken: string;
     tokenType: string;
     expiresIn: number;
-    scopes: string[];
+    scope: string;
 
     static fromModel(model: TokensModel) {
         return new this(tokensTypeFromModel(model));
+    }
+
+    get scopes() {
+        const scope = this.scope;
+
+        return scope ? scope.split(SCOPE_SEPARATOR) : [];
+    }
+
+    set scopes(value: string[]) {
+        this.scope = value.join(SCOPE_SEPARATOR);
     }
 
     constructor(tokens: TokensType) {
@@ -42,9 +52,6 @@ export class Tokens {
         this.refreshToken = tokens.refreshToken;
         this.tokenType = tokens.tokenType;
         this.expiresIn = tokens.expiresIn;
-
-        let scope = tokens.scope;
-
-        this.scopes = scope ? scope.split(SCOPE_SEPARATOR) : [];
+        this.scope = tokens.scope;
     }
 }

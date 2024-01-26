@@ -27,22 +27,20 @@ export const useTokensStore = defineStore(
         getters: {
             authorized: (state) => state.tokens != null,
             stateTokens: (state) => {
-                const token = state.tokens;
+                const tokens = state.tokens;
 
-                if (token == null) {
-                    throw new Error("token is not present");
+                if (tokens == null) {
+                    throw new Error("tokens are not present");
                 }
 
-                return new Tokens(token);
+                return new Tokens(tokens);
             },
         },
         actions: {
             async login(userData: UserData) {
                 let {data} = await axios.post("/login", userData);
 
-                let tokens = tokensTypeFromModel(data);
-
-                this.setTokens(tokens);
+                this.setTokens(tokensTypeFromModel(data));
             },
             async refresh() {
                 let tokens = this.stateTokens;
@@ -51,9 +49,7 @@ export const useTokensStore = defineStore(
                     "/refresh", null, {headers: authorizationRefreshHeader(tokens)}
                 );
 
-                let newTokens = tokensTypeFromModel(data);
-
-                this.setTokens(newTokens);
+                this.setTokens(tokensTypeFromModel(data));
             },
             async logout() {
                 let tokens = this.stateTokens;
@@ -85,6 +81,11 @@ export const useTokensStore = defineStore(
                 }
 
                 const password = resetData.password;
+
+                if (password == null) {
+                    throw new Error("password is not present");
+                }
+
                 const confirm = resetData.confirm;
 
                 if (password != confirm) {
