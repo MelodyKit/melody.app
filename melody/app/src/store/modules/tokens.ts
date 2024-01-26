@@ -2,14 +2,14 @@ import axios from "axios";
 
 import { defineStore } from "pinia";
 
+import {
+    authorizationAccessHeader, authorizationDefaultHeader, authorizationRefreshHeader
+} from "@/authorization";
 import type { UserData } from "@/models/data/user";
 import type { RegisterData } from "@/models/data/register";
 import type { VerificationData } from "@/models/data/verification";
 import type { ForgotData } from "@/models/data/forgot";
 import { Tokens, tokensTypeFromModel, type TokensType } from "@/models/tokens";
-import {
-    authorizationAccessHeader, authorizationDefaultHeader, authorizationRefreshHeader
-} from "@/store/utils";
 import type { ResetData } from "@/models/data/reset";
 
 interface State {
@@ -47,7 +47,10 @@ export const useTokensStore = defineStore(
 
                 let {data} = await axios.post(
                     "/refresh", null, {headers: authorizationRefreshHeader(tokens)}
-                );
+                ).catch((error) => {
+                    this.removeTokens();
+                    throw error;
+                });
 
                 this.setTokens(tokensTypeFromModel(data));
             },

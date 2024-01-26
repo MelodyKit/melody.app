@@ -1,10 +1,10 @@
 import axios from "axios";
 
 import { defineStore } from "pinia";
+import { authorizationAccessHeader } from "@/authorization";
 import { PlayerSettings } from "@/models/playerSettings";
 import { User } from "@/models/user";
 import { UserSettings } from "@/models/userSettings";
-import { authorizationAccessHeader } from "@/store/utils";
 
 import { useTokensStore } from "@/store/modules/tokens";
 
@@ -59,7 +59,7 @@ export const useSelfStore = defineStore(
                 const localPlayerSettings = state.localPlayerSettings;
 
                 if (localPlayerSettings == null) {
-                    throw new Error("local player setttings are not present");
+                    throw new Error("local player settings are not present");
                 }
 
                 return localPlayerSettings;
