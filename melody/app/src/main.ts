@@ -1,4 +1,4 @@
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 
 import { createApp } from "vue";
 import { createPinia } from "pinia";
@@ -8,9 +8,6 @@ import piniaPluginPersistedState from "pinia-plugin-persistedstate";
 import App from "@/App.vue";
 
 import router from "@/router";
-
-import { AUTHORIZATION, authorizationAccess } from "@/authorization";
-import { useTokensStore } from "@/store/modules/tokens";
 
 const ID = "#app";
 
