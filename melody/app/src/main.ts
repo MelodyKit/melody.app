@@ -11,8 +11,10 @@ import router from "@/router";
 
 const ID = "#app";
 
+const BASE_URL = "https://melodykit.app/api/v1";
+
 axios.defaults.withCredentials = true;
-axios.defaults.baseURL = "https://melodykit.app/api/v1";
+axios.defaults.baseURL = BASE_URL;
 
 const pinia = createPinia();
 

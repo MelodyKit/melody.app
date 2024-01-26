@@ -3,7 +3,7 @@ export interface BaseModel {
 }
 
 export interface BaseType {
-    id: string
+    id: string;
 }
 
 export function baseTypeFromModel(model: BaseModel): BaseType {

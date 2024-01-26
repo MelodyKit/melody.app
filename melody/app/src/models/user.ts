@@ -10,6 +10,8 @@ export interface UserModel extends EntityModel {
     stream_duration_ms: number;
 
     privacy_type: PrivacyTypeLiteral;
+
+    discord_id: string | null;
 }
 
 export interface UserType extends EntityType {
@@ -21,6 +23,8 @@ export interface UserType extends EntityType {
     streamDurationMS: number;
 
     privacyType: PrivacyTypeLiteral;
+
+    discordId: string | null;
 }
 
 export function userTypeFromModel(model: UserModel): UserType {
@@ -36,6 +40,7 @@ export function userTypeFromModel(model: UserModel): UserType {
         streamCount: model.stream_count,
         streamDurationMS: model.stream_duration_ms,
         privacyType: model.privacy_type,
+        discordId: model.discord_id,
     };
 }
 
@@ -48,6 +53,8 @@ export class User extends Entity {
     streamDurationMS: number;
 
     privacyType: PrivacyType;
+
+    discordId: string | null;
 
     static fromModel(model: UserModel) {
         return new this(userTypeFromModel(model));
@@ -64,5 +71,7 @@ export class User extends Entity {
         this.streamDurationMS = user.streamDurationMS;
 
         this.privacyType = user.privacyType as PrivacyType;
+
+        this.discordId = user.discordId;
     }
 }

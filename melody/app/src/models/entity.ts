@@ -11,9 +11,9 @@ export interface EntityModel extends CreatedAtModel {
 export interface EntityType extends CreatedAtType {
     name: string;
 
-    spotifyID: string | null;
-    appleMusicID: string | null;
-    yandexMusicID: string | null;
+    spotifyId: string | null;
+    appleMusicId: string | null;
+    yandexMusicId: string | null;
 }
 
 export function entityTypeFromModel(model: EntityModel): EntityType {
@@ -21,18 +21,18 @@ export function entityTypeFromModel(model: EntityModel): EntityType {
         id: model.id,
         createdAt: model.created_at,
         name: model.name,
-        spotifyID: model.spotify_id,
-        appleMusicID: model.apple_music_id,
-        yandexMusicID: model.yandex_music_id,
+        spotifyId: model.spotify_id,
+        appleMusicId: model.apple_music_id,
+        yandexMusicId: model.yandex_music_id,
     };
 }
 
 export class Entity extends CreatedAt {
     name: string;
 
-    spotifyID: string | null;
-    appleMusicID: string | null;
-    yandexMusicID: string | null;
+    spotifyId: string | null;
+    appleMusicId: string | null;
+    yandexMusicId: string | null;
 
     static fromModel(model: EntityModel) {
         return new this(entityTypeFromModel(model));
@@ -43,8 +43,8 @@ export class Entity extends CreatedAt {
 
         this.name = entity.name;
 
-        this.spotifyID = entity.spotifyID;
-        this.appleMusicID = entity.appleMusicID;
-        this.yandexMusicID = entity.yandexMusicID;
+        this.spotifyId = entity.spotifyId;
+        this.appleMusicId = entity.appleMusicId;
+        this.yandexMusicId = entity.yandexMusicId;
     }
 }
