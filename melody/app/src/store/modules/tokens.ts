@@ -47,10 +47,7 @@ export const useTokensStore = defineStore(
 
                 let {data} = await axios.post(
                     "/refresh", null, {headers: authorizationRefreshHeader(tokens)}
-                ).catch((error) => {
-                    this.removeTokens();
-                    throw error;
-                });
+                );
 
                 this.setTokens(tokensTypeFromModel(data));
             },

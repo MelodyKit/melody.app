@@ -32,11 +32,13 @@ axios.interceptors.response.use(
         const config = error.config;
 
         if (config) {
-            if (config.url == REFRESH) {
-                throw error;
-            }
-
             const store = useTokensStore();
+
+            if (config.url == REFRESH) {
+                store.removeTokens();
+
+                throw new Error("refresh failed; tokens removed");
+            }
 
             await store.refresh();
 
