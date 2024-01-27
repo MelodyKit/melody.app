@@ -31,23 +31,23 @@ axios.interceptors.response.use(
 
         const config = error.config;
 
-        if (config) {
-            const store = useTokensStore();
-
-            if (config.url == REFRESH) {
-                store.removeTokens();
-
-                throw new Error("refresh failed; tokens removed");
-            }
-
-            await store.refresh();
-
-            config.headers[AUTHORIZATION] = authorizationAccess(store.stateTokens);
-
-            return await axios.request(config);
+        if (!config) {
+            throw new Error("config is not present; can not retry");
         }
 
-        throw new Error("config is not present; can not retry");
+        const store = useTokensStore();
+
+        if (config.url == REFRESH) {
+            store.removeTokens();
+
+            throw new Error("refresh failed; tokens removed");
+        }
+
+        await store.refresh();
+
+        config.headers[AUTHORIZATION] = authorizationAccess(store.stateTokens);
+
+        return await axios.request(config);
     }
 )
 
