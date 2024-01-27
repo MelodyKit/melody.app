@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 import { createApp } from "vue";
 import { createPinia } from "pinia";
@@ -9,14 +9,45 @@ import App from "@/App.vue";
 
 import router from "@/router";
 
+import { AUTHORIZATION, authorizationAccess } from "@/authorization";
+import { ErrorCode } from "@/errors";
+import { useTokensStore } from "@/store/modules/tokens";
+
 const ID = "#app";
 
 const BASE_URL = "https://melodykit.app/api/v1";
 
 const HTTP_UNAUTHORIZED = 401;
+const REFRESH = "/refresh";
 
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = BASE_URL;
+axios.interceptors.response.use(
+    (response) => response,
+    async (error: AxiosError<any>) => {
+        if (error.response?.data.code != ErrorCode.AuthenticationNotFound) {
+            throw error;
+        }
+
+        const config = error.config;
+
+        if (config) {
+            if (config.url == REFRESH) {
+                throw error;
+            }
+
+            const store = useTokensStore();
+
+            await store.refresh();
+
+            config.headers[AUTHORIZATION] = authorizationAccess(store.stateTokens);
+
+            return await axios.request(config);
+        }
+
+        throw new Error("config is not present; can not retry");
+    }
+)
 
 const pinia = createPinia();
 
