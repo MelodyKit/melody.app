@@ -1,7 +1,7 @@
 {
   "build": {
-    "beforeBuildCommand": "",
-    "beforeDevCommand": "",
+    "beforeBuildCommand": "npm run build",
+    "beforeDevCommand": "npm run dev",
     "devPath": "http://127.0.0.1:4269/",
     "distDir": "../dist"
   },
@@ -15,40 +15,28 @@
     },
     "bundle": {
       "active": true,
-      "category": "DeveloperTool",
-      "copyright": "",
-      "deb": {
-        "depends": []
-      },
-      "externalBin": [],
+      "publisher": "MelodyKit",
+      "category": "Music",
+      "copyright": "Copyright (c) 2022-present, MelodyKit",
       "icon": [
         "icons/icon.svg",
         "icons/icon.png",
-        "icons/icon.ico"
+        "icons/icon.ico",
+        "icons/icon.icns"
       ],
       "identifier": "com.melody.kit",
-      "longDescription": "",
-      "macOS": {
-        "entitlements": null,
-        "exceptionDomain": "",
-        "frameworks": [],
-        "providerShortName": null,
-        "signingIdentity": null
-      },
-      "resources": [],
-      "shortDescription": "",
-      "targets": "all",
-      "windows": {
-        "certificateThumbprint": null,
-        "digestAlgorithm": "sha256",
-        "timestampUrl": ""
-      }
+      "shortDescription": "All your music, in one place.",
+      "targets": "all"
     },
     "security": {
       "csp": null
     },
     "updater": {
-      "active": false
+      "active": true,
+      "endpoints": [
+        "https://releases.melodykit.app/{{target}}/{{arch}}/{{current_version}}"
+      ],
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDJDRDBFQUE0Mzg3RUI0NTMKUldSVHRINDRwT3JRTENPWE8wUlVzVVdPT2ptanZMZnQra1FFRGpvaUpyYmJOaHZ6RXV3Ym1hcloK"
     },
     "windows": [
       {
@@ -56,7 +44,7 @@
         "resizable": true,
         "width": 1024,
         "height": 576,
-        "decorations": false,
+        "decorations": true,
         "title": "MelodyKit"
       }
     ]

@@ -2,7 +2,6 @@
   <div class="flex flex-col h-screen bg-white dark:bg-black" v-if="isAuthorized()">
     <header data-tauri-drag-region class="flex items-center justify-between">
       <NavigationControls/>
-      <WindowControls v-if="isApp()"/>
     </header>
     <div class="flex grow justify-between z-40">
       <SideBar/>
@@ -31,7 +30,6 @@ import NavigationControls from "@/components/NavigationControls.vue";
 import PlayerControls from "@/components/PlayerControls.vue";
 import SmallMenu from "@/components/SmallMenu.vue";
 import SideBar from "@/components/SideBar.vue";
-import WindowControls from "@/components/WindowControls.vue";
 
 export default defineComponent({
   name: "AppLayout",
@@ -43,7 +41,7 @@ export default defineComponent({
     }
   },
   components: {
-    LoginForm, NavigationControls, PlayerControls, SmallMenu, SideBar, WindowControls
+    LoginForm, NavigationControls, PlayerControls, SmallMenu, SideBar
   },
 });
 </script>

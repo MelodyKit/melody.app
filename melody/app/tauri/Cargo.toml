@@ -1,6 +1,6 @@
 [package]
-name = "app"
-version = "0.1.0"
+name = "melodykit"
+version = "0.1.1"
 description = "All your music, in one place."
 authors = ["MelodyKit"]
 license = "MIT"
@@ -8,7 +8,7 @@ repository = "https://github.com/MelodyKit/melody.app"
 edition = "2021"
 
 [build-dependencies.tauri-build]
-version = "1.0.4"
+version = "1.5.1"
 features = []
 
 [dependencies]
@@ -19,8 +19,8 @@ version = "1.0"
 features = ["derive"]
 
 [dependencies.tauri]
-version = "1.0.5"
-features = ["api-all"]
+version = "1.5.4"
+features = [ "updater", "api-all"]
 
 [features]
 default = ["custom-protocol"]
