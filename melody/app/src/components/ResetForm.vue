@@ -31,30 +31,31 @@
   </section>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, reactive } from "vue";
+import { useRouter } from "vue-router";
+
+import { BASE_URL } from "@/constants";
 import { ResetData } from "@/models/data/reset";
 import { useTokensStore } from "@/stores/tokens";
-import { defineComponent } from "vue";
 
-export default defineComponent({
-  name: "ResetForm",
-  data() {
-    return {
-      resetData: new ResetData({
-        token: null,
-        password: null,
-        confirm: null,
-      })
-    };
-  },
-  methods: {
-    async reset() {
-      const store = useTokensStore();
+const resetData = reactive(
+  new ResetData({
+    token: null,
+    password: null,
+    confirm: null,
+  })
+);
 
-      await store.reset(this.resetData);
+const baseUrl = computed(() => BASE_URL);
 
-      await this.$router.push("/");
-    }
-  }
-})
+const router = useRouter();
+
+const reset = async () => {
+  const store = useTokensStore();
+
+  await store.reset(resetData);
+
+  await router.push("/");
+}
 </script>

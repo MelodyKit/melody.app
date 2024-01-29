@@ -2,13 +2,6 @@
   <VerificationForm/>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
-
+<script setup lang="ts">
 import VerificationForm from "@/components/VerificationForm.vue";
-
-export default defineComponent({
-  name: "VerificationView",
-  components: {VerificationForm},
-});
 </script>

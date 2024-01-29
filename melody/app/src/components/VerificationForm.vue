@@ -20,35 +20,29 @@
   </section>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script setup lang="ts">
+import { computed, reactive } from "vue";
+import { useRouter } from "vue-router";
 
 import { BASE_URL } from "@/constants";
 import { useTokensStore } from "@/stores/tokens";
 import { VerificationData } from "@/models/data/verification";
 
-export default defineComponent({
-  name: "VerificationForm",
-  data() {
-    return {
-      verificationData: new VerificationData({
-        verificationToken: null
-      })
-    };
-  },
-  computed: {
-    baseUrl() {
-      return BASE_URL;
-    }
-  },
-  methods: {
-    async verify() {
-      const store = useTokensStore();
+const verificationData = reactive(
+  new VerificationData({
+    verificationToken: null
+  })
+);
 
-      await store.verify(this.verificationData);
+const baseUrl = computed(() => BASE_URL);
 
-      await this.$router.push("/");
-    }
-  },
-});
+const router = useRouter();
+
+const verify = async () => {
+  const store = useTokensStore();
+
+  await store.verify(verificationData);
+
+  await router.push("/");
+}
 </script>

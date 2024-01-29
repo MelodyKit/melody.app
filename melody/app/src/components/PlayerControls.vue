@@ -54,38 +54,23 @@
   </footer>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script setup lang="ts">
+import { computed } from "vue";
 
 import { useSelfStore } from "@/stores/self";
 
-export default defineComponent({
-  name: "PlayerControls",
-  computed: {
-    currentPlayerSettings() {
-      const store = useSelfStore();
+const currentPlayerSettings = computed(() => {
+  const store = useSelfStore();
 
-      store.ensureLocalPlayerSettings();
+  store.ensureLocalPlayerSettings();
 
-      return store.stateLocalPlayerSettings;
-    }
-  },
-  methods: {
-    viewQueue() {
-    },
-    viewLyrics() {
-    },
-    viewDevice() {
-    },
-  },
+  return store.stateLocalPlayerSettings;
 });
-</script>
 
-<script setup lang="ts">
-import { appWindow } from "@tauri-apps/api/window";
+// TODO
 
-async function viewFullscreen() {
-  await appWindow.setFullscreen(true);
-  // ...
-}
+const viewQueue = () => {};
+const viewLyrics = () => {};
+const viewDevice = () => {};
+const viewFullscreen = () => {};
 </script>

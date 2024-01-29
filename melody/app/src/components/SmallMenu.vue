@@ -22,47 +22,41 @@
   </Menu>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script setup lang="ts">
+import { computed } from "vue";
 
+import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
+
+import { isLoaded } from "@/checks";
 import { API_URL } from "@/constants";
 import { useSelfStore } from "@/stores/self";
 import { useTokensStore } from "@/stores/tokens";
 
-export default defineComponent({
-  name: "SmallMenu",
-  created() {
-    const store = useSelfStore();
+const apiUrl = computed(() => API_URL);
 
-    if (!store.loaded) {
-      store.fetchAll();
-    }
-  },
-  computed: {
-    apiUrl() {
-      return API_URL;
-    },
-    self() {
-      const store = useSelfStore();
+const self = computed(() => {
+  const store = useSelfStore();
 
-      return store.stateSelf;
-    }
-  },
-  methods: {
-    async logout() {
-      const tokensStore = useTokensStore();
-
-      await tokensStore.logout();
-
-      const selfStore = useSelfStore();
-
-      selfStore.removeAll();
-    }
-  },
+  return store.stateSelf;
 });
-</script>
 
-<script setup lang="ts">
-import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
-import { isLoaded } from "@/checks";
+const logout = async () => {
+  const tokensStore = useTokensStore();
+
+  await tokensStore.logout();
+
+  const selfStore = useSelfStore();
+
+  selfStore.removeAll();
+};
+
+const setup = async () => {
+  const store = useSelfStore();
+
+  if (!store.loaded) {
+    await store.fetchAll();
+  }
+}
+
+setup();
 </script>

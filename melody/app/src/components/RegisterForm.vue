@@ -28,37 +28,31 @@
   </section>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script setup lang="ts">
+import { computed, reactive } from "vue";
+import { useRouter } from "vue-router";
 
 import { BASE_URL } from "@/constants";
 import { RegisterData } from "@/models/data/register";
 import { useTokensStore } from "@/stores/tokens";
 
-export default defineComponent({
-  name: "RegisterForm",
-  data() {
-    return {
-      registerData: new RegisterData({
-        name: null,
-        email: null,
-        password: null,
-      })
-    };
-  },
-  computed: {
-    baseUrl() {
-      return BASE_URL;
-    }
-  },
-  methods: {
-    async register() {
-      const store = useTokensStore();
+const registerData = reactive(
+  new RegisterData({
+    name: null,
+    email: null,
+    password: null,
+  })
+);
 
-      await store.register(this.registerData);
+const baseUrl = computed(() => BASE_URL);
 
-      await this.$router.push("/verify");
-    }
-  },
-});
+const router = useRouter();
+
+const register = async () => {
+  const store = useTokensStore();
+
+  await store.register(registerData);
+
+  await router.push("/verify");
+};
 </script>

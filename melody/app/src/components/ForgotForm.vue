@@ -20,33 +20,29 @@
   </section>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, reactive } from "vue";
+import { useRouter } from "vue-router";
+
 import { BASE_URL } from "@/constants";
 import { ForgotData } from "@/models/data/forgot";
 import { useTokensStore } from "@/stores/tokens";
-import { defineComponent } from "vue";
 
-export default defineComponent({
-  data() {
-    return {
-      forgotData: new ForgotData({
-        email: null
-      })
-    };
-  },
-  computed: {
-    baseUrl() {
-      return BASE_URL;
-    }
-  },
-  methods: {
-    async forgot() {
-      const store = useTokensStore();
+const baseUrl = computed(() => BASE_URL);
 
-      await store.forgot(this.forgotData);
+const forgotData = reactive(
+  new ForgotData({
+    email: null
+  })
+);
 
-      this.$router.push("/reset");
-    }
-  }
-})
+const router = useRouter();
+
+const forgot = async () => {
+  const store = useTokensStore();
+
+  await store.forgot(forgotData);
+
+  await router.push("/reset");
+}
 </script>

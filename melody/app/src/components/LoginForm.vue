@@ -30,34 +30,25 @@
   </section>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script setup lang="ts">
+import { computed, reactive } from "vue";
 
 import { BASE_URL } from "@/constants";
 import { UserData } from "@/models/data/user";
 import { useTokensStore } from "@/stores/tokens";
 
-export default defineComponent({
-  name: "LoginForm",
-  data() {
-    return {
-      userData: new UserData({
-        email: null,
-        password: null,
-      })
-    };
-  },
-  computed: {
-    baseUrl() {
-      return BASE_URL;
-    }
-  },
-  methods: {
-    async login() {
-      const store = useTokensStore();
+const userData = reactive(
+  new UserData({
+    email: null,
+    password: null,
+  })
+);
 
-      await store.login(this.userData);
-    }
-  },
-});
+const baseUrl = computed(() => BASE_URL);
+
+const login = async () => {
+  const tokensStore = useTokensStore();
+
+  await tokensStore.login(userData);
+}
 </script>

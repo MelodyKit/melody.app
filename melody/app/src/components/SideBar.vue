@@ -5,10 +5,10 @@
         <div>
           <div class="pb-4">
             <div class="flex items-center px-2 pb-4 gap-x-4">
-              <button type="button" @click="back()">
+              <button type="button" @click="router.back()">
                 <i class="fa-solid fa-arrow-left w-5 h-auto text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-50"></i>
               </button>
-              <button type="button" @click="forward()">
+              <button type="button" @click="router.forward()">
                 <i class="fa-solid fa-arrow-right w-5 h-auto text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-50"></i>
               </button>
             </div>
@@ -48,33 +48,18 @@
   </nav>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script setup lang="ts">
+import { computed } from "vue";
+import { useRoute, useRouter } from "vue-router";
 
 const HOME = "/";
 const SEARCH = "/search";
 const LIBRARY = "/me/library";
 
-export default defineComponent({
-  name: "SideBar",
-  computed: {
-    isHome() {
-      return this.$route.path == HOME;
-    },
-    isSearch() {
-      return this.$route.path == SEARCH;
-    },
-    isLibrary() {
-      return this.$route.path == LIBRARY;
-    },
-  },
-  methods: {
-    back() {
-      this.$router.back();
-    },
-    forward() {
-      this.$router.forward();
-    },
-  },
-});
+const router = useRouter();
+const route = useRoute();
+
+const isHome = computed(() => route.path == HOME);
+const isSearch = computed(() => route.path == SEARCH);
+const isLibrary = computed(() => route.path == LIBRARY);
 </script>
