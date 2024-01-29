@@ -2,9 +2,12 @@ import axios, { AxiosError } from "axios";
 
 import { createApp } from "vue";
 import { createPinia } from "pinia";
-import { createHead } from "@unhead/vue";
 
 import piniaPluginPersistedState from "pinia-plugin-persistedstate";
+
+import Toast from "vue-toastification";
+
+import "vue-toastification/dist/index.css";
 
 import App from "@/App.vue";
 
@@ -54,11 +57,9 @@ const pinia = createPinia();
 
 pinia.use(piniaPluginPersistedState);
 
-const head = createHead();
-
 const app = createApp(App);
 
-app.use(head);
+app.use(Toast);
 
 app.use(router);
 

@@ -1,5 +1,4 @@
 <template>
-  <BaseHead :title="title" :description="description"/>
   <div class="flex flex-col h-screen bg-white dark:bg-black" v-if="isAuthorized()">
     <div class="flex grow justify-between z-40">
       <SideBar/>
@@ -23,7 +22,6 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
-import BaseHead from "@/components/BaseHead.vue";
 import LoginForm from "@/components/LoginForm.vue";
 import PlayerControls from "@/components/PlayerControls.vue";
 import SmallMenu from "@/components/SmallMenu.vue";
@@ -32,17 +30,10 @@ import SideBar from "@/components/SideBar.vue";
 export default defineComponent({
   name: "AppLayout",
   props: {
-    title: {
-      type: String,
-      default: "App",
-    },
-    description: {
-      type: String,
-      default: "All your music, in one place.",
-    },
+    title: String
   },
   components: {
-    BaseHead, LoginForm, PlayerControls, SmallMenu, SideBar
+    LoginForm, PlayerControls, SmallMenu, SideBar
   },
 });
 </script>
