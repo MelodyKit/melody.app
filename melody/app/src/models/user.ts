@@ -20,7 +20,7 @@ export interface UserType extends EntityType {
     followerCount: number;
 
     streamCount: number;
-    streamDurationMS: number;
+    streamDurationMs: number;
 
     privacyType: PrivacyTypeLiteral;
 
@@ -32,13 +32,13 @@ export function userTypeFromModel(model: UserModel): UserType {
         id: model.id,
         createdAt: model.created_at,
         name: model.name,
-        spotifyID: model.spotify_id,
-        appleMusicID: model.apple_music_id,
-        yandexMusicID: model.yandex_music_id,
+        spotifyId: model.spotify_id,
+        appleMusicId: model.apple_music_id,
+        yandexMusicId: model.yandex_music_id,
         uri: model.uri,
         followerCount: model.follower_count,
         streamCount: model.stream_count,
-        streamDurationMS: model.stream_duration_ms,
+        streamDurationMs: model.stream_duration_ms,
         privacyType: model.privacy_type,
         discordId: model.discord_id,
     };
@@ -50,7 +50,7 @@ export class User extends Entity {
     followerCount: number;
 
     streamCount: number;
-    streamDurationMS: number;
+    streamDurationMs: number;
 
     privacyType: PrivacyType;
 
@@ -68,7 +68,7 @@ export class User extends Entity {
         this.followerCount = user.followerCount;
 
         this.streamCount = user.streamCount;
-        this.streamDurationMS = user.streamDurationMS;
+        this.streamDurationMs = user.streamDurationMs;
 
         this.privacyType = user.privacyType as PrivacyType;
 

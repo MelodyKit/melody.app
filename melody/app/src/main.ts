@@ -10,18 +10,16 @@ import App from "@/App.vue";
 import router from "@/router";
 
 import { AUTHORIZATION, authorizationAccess } from "@/authorization";
+import { API_URL } from "@/constants";
 import { ErrorCode } from "@/errors";
-import { useTokensStore } from "@/store/modules/tokens";
+import { useTokensStore } from "@/stores/tokens";
 
 const ID = "#app";
 
-const BASE_URL = "https://melodykit.app/api/v1";
-
-const HTTP_UNAUTHORIZED = 401;
 const REFRESH = "/refresh";
 
 axios.defaults.withCredentials = true;
-axios.defaults.baseURL = BASE_URL;
+axios.defaults.baseURL = API_URL;
 axios.interceptors.response.use(
     (response) => response,
     async (error: AxiosError<any>) => {

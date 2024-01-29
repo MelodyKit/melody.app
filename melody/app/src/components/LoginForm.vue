@@ -3,7 +3,7 @@
     <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen">
       <div class="w-full bg-neutral-50 rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-neutral-800 dark:border-neutral-700">
         <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-          <img class="w-auto h-10" src="https://melodykit.app/static/images/gradient.svg" alt="MelodyKit"/>
+          <img class="w-auto h-10" :src="`${baseUrl}/static/images/gradient.svg`" alt="MelodyKit"/>
           <h1 class="text-xl text-neutral-900 md:text-2xl dark:text-neutral-50">
             Log in to your account
           </h1>
@@ -33,8 +33,9 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
+import { BASE_URL } from "@/constants";
 import { UserData } from "@/models/data/user";
-import { useTokensStore } from "@/store/modules/tokens";
+import { useTokensStore } from "@/stores/tokens";
 
 export default defineComponent({
   name: "LoginForm",
@@ -45,6 +46,11 @@ export default defineComponent({
         password: null,
       })
     };
+  },
+  computed: {
+    baseUrl() {
+      return BASE_URL;
+    }
   },
   methods: {
     async login() {

@@ -5,12 +5,12 @@ import { defineStore } from "pinia";
 import {
     authorizationAccessHeader, authorizationDefaultHeader, authorizationRefreshHeader
 } from "@/authorization";
-import type { UserData } from "@/models/data/user";
-import type { RegisterData } from "@/models/data/register";
-import type { VerificationData } from "@/models/data/verification";
-import type { ForgotData } from "@/models/data/forgot";
+import { ForgotData } from "@/models/data/forgot";
+import { RegisterData } from "@/models/data/register";
+import { ResetData } from "@/models/data/reset";
+import { UserData } from "@/models/data/user";
+import { VerificationData } from "@/models/data/verification";
 import { Tokens, tokensTypeFromModel, type TokensType } from "@/models/tokens";
-import type { ResetData } from "@/models/data/reset";
 
 interface State {
     tokens: TokensType | null;

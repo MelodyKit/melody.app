@@ -1,7 +1,7 @@
 <template>
   <Menu v-if="isLoaded()" as="div" :class="['relative w-fit text-left']">
     <MenuButton class="inline-flex w-full items-center justify-center rounded-full bg-neutral-200 dark:bg-black text-neutral-900 dark:text-neutral-50 hover:bg-neutral-100 dark:hover:bg-neutral-800 focus:outline-none gap-x-2 pr-4">
-      <img class="h-10 w-auto rounded-full" :src="`https://melodykit.app/api/v1/users/${self.id}/image`"/>
+      <img class="h-10 w-auto rounded-full" :src="`${apiUrl}/users/${self.id}/image`"/>
       <span>{{ self.name }}</span>
     </MenuButton>
     <MenuItems class="absolute py-1 px-1 mt-2 w-52 divide-y divide-neutral-100 dark:divide-neutral-700 rounded-md bg-neutral-200 dark:bg-neutral-800 text-neutral-900 dark:text-neutral-50 focus:outline-none right-2">
@@ -10,7 +10,7 @@
           <router-link to="/me" :class="[active ? 'bg-neutral-100 dark:bg-neutral-700' : '', 'block rounded-sm px-4 py-2']">Profile</router-link>
         </MenuItem>
         <MenuItem v-slot="{ active }">
-          <router-link to="/settings" :class="[active ? 'bg-neutral-100 dark:bg-neutral-700' : '', 'block rounded-sm px-4 py-2']">Settings</router-link>
+          <router-link to="/me/settings" :class="[active ? 'bg-neutral-100 dark:bg-neutral-700' : '', 'block rounded-sm px-4 py-2']">Settings</router-link>
         </MenuItem>
       </div>
       <div>
@@ -25,8 +25,9 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
-import { useSelfStore } from "@/store/modules/self";
-import { useTokensStore } from "@/store/modules/tokens";
+import { API_URL } from "@/constants";
+import { useSelfStore } from "@/stores/self";
+import { useTokensStore } from "@/stores/tokens";
 
 export default defineComponent({
   name: "SmallMenu",
@@ -38,6 +39,9 @@ export default defineComponent({
     }
   },
   computed: {
+    apiUrl() {
+      return API_URL;
+    },
     self() {
       const store = useSelfStore();
 
@@ -60,5 +64,5 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
-import { isLoaded } from "@/utils";
+import { isLoaded } from "@/checks";
 </script>

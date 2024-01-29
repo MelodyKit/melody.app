@@ -1,5 +1,5 @@
-import { useSelfStore } from "@/store/modules/self";
-import { useTokensStore } from "@/store/modules/tokens";
+import { useSelfStore } from "@/stores/self";
+import { useTokensStore } from "@/stores/tokens";
 
 export const isApp = () => {
     // @ts-ignore

@@ -1,5 +1,5 @@
 <template>
-  <AppLayout title="Playlist">
+  <AppLayout title="User">
   </AppLayout>
 </template>
 
@@ -9,7 +9,7 @@ import { defineComponent } from "vue";
 import AppLayout from "@/components/AppLayout.vue";
 
 export default defineComponent({
-  name: "PlaylistView",
+  name: "UserView",
   components: {AppLayout},
 });
 </script>

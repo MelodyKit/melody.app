@@ -1,12 +1,13 @@
 import axios from "axios";
 
 import { defineStore } from "pinia";
+
 import { authorizationAccessHeader } from "@/authorization";
 import { PlayerSettings } from "@/models/playerSettings";
 import { User } from "@/models/user";
 import { UserSettings } from "@/models/userSettings";
 
-import { useTokensStore } from "@/store/modules/tokens";
+import { useTokensStore } from "@/stores/tokens";
 
 interface State {
     self: User | null;

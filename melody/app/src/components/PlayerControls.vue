@@ -57,7 +57,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
-import { useSelfStore } from "@/store/modules/self";
+import { useSelfStore } from "@/stores/self";
 
 export default defineComponent({
   name: "PlayerControls",

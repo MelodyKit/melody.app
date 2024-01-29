@@ -1,17 +1,14 @@
 <template>
   <div class="flex flex-col h-screen bg-white dark:bg-black" v-if="isAuthorized()">
-    <header data-tauri-drag-region class="flex items-center justify-between">
-      <NavigationControls/>
-    </header>
     <div class="flex grow justify-between z-40">
       <SideBar/>
       <div class="flex flex-col grow">
-        <div class="flex flex-col grow rounded-tl-lg bg-neutral-50 dark:bg-neutral-900">
+        <div class="flex flex-col grow bg-neutral-50 dark:bg-neutral-900">
           <div class="flex justify-between items-center w-full px-4 py-2 gap-2">
             <h1 class="text-3xl">{{ title }}</h1>
             <SmallMenu/>
           </div>
-          <div class="grow" :class="{'p-4': decoration}">
+          <div class="grow">
             <slot/>
           </div>
         </div>
@@ -26,7 +23,6 @@
 import { defineComponent } from "vue";
 
 import LoginForm from "@/components/LoginForm.vue";
-import NavigationControls from "@/components/NavigationControls.vue";
 import PlayerControls from "@/components/PlayerControls.vue";
 import SmallMenu from "@/components/SmallMenu.vue";
 import SideBar from "@/components/SideBar.vue";
@@ -34,18 +30,14 @@ import SideBar from "@/components/SideBar.vue";
 export default defineComponent({
   name: "AppLayout",
   props: {
-    title: String,
-    decoration: {
-      type: Boolean,
-      default: true
-    }
+    title: String
   },
   components: {
-    LoginForm, NavigationControls, PlayerControls, SmallMenu, SideBar
+    LoginForm, PlayerControls, SmallMenu, SideBar
   },
 });
 </script>
 
 <script setup lang="ts">
-import { isApp, isAuthorized } from "@/utils";
+import { isAuthorized } from "@/checks";
 </script>

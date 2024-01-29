@@ -8,6 +8,7 @@ import RegisterView from "@/views/RegisterView.vue";
 import ResetView from "@/views/ResetView.vue";
 import SearchView from "@/views/SearchView.vue";
 import SettingsView from "@/views/SettingsView.vue";
+import UserView from "@/views/UserView.vue";
 import VerificationView from "@/views/VerificationView.vue";
 
 const routes = [
@@ -22,7 +23,7 @@ const routes = [
     component: SearchView,
   },
   {
-    path: "/library",
+    path: "/me/library",
     name: "library",
     component: LibraryView,
   },
@@ -47,12 +48,17 @@ const routes = [
     component: ResetView,
   },
   {
-    path: "/settings",
+    path: "/me/settings",
     name: "settings",
     component: SettingsView,
   },
   {
-    path: "/playlists/:playlistID",
+    path: "/users/:userId",
+    name: "user",
+    component: UserView,
+  },
+  {
+    path: "/playlists/:playlistId",
     name: "playlist",
     component: PlaylistView,
   },

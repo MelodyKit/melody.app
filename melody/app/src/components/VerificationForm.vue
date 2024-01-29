@@ -3,7 +3,7 @@
     <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
       <div class="w-full bg-neutral-50 rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-neutral-800 dark:border-neutral-700">
         <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-          <router-link to="/"><img class="w-auto h-10" src="https://melodykit.app/static/images/gradient.svg" alt="MelodyKit"/></router-link>
+          <router-link to="/"><img class="w-auto h-10" :src="`${baseUrl}/static/images/gradient.svg`" alt="MelodyKit"/></router-link>
           <h1 class="text-xl text-neutral-900 md:text-2xl dark:text-neutral-50">
             Verification token has been sent to your email
           </h1>
@@ -23,7 +23,8 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
-import { useTokensStore } from "@/store/modules/tokens";
+import { BASE_URL } from "@/constants";
+import { useTokensStore } from "@/stores/tokens";
 import { VerificationData } from "@/models/data/verification";
 
 export default defineComponent({
@@ -34,6 +35,11 @@ export default defineComponent({
         verificationToken: null
       })
     };
+  },
+  computed: {
+    baseUrl() {
+      return BASE_URL;
+    }
   },
   methods: {
     async verify() {

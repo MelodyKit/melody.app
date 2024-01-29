@@ -4,6 +4,14 @@
       <div class="divide-y divide-neutral-200 dark:divide-neutral-700">
         <div>
           <div class="pb-4">
+            <div class="flex items-center px-2 pb-4 gap-x-4">
+              <button type="button" @click="back()">
+                <i class="fa-solid fa-arrow-left w-5 h-auto text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-50"></i>
+              </button>
+              <button type="button" @click="forward()">
+                <i class="fa-solid fa-arrow-right w-5 h-auto text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-50"></i>
+              </button>
+            </div>
             <router-link :class="['flex items-center px-2 pb-4 gap-x-4', isHome ? 'text-melody-blue' : 'text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-50']" to="/">
               <i class="fa-solid fa-rotate w-5 h-auto"></i>
               <span class="text-md">Home</span>
@@ -12,7 +20,7 @@
               <i class="fa-solid fa-magnifying-glass w-5 h-auto"></i>
               <span class="text-md">Search</span>
             </router-link>
-            <router-link :class="['flex items-center px-2 pb-4 gap-x-4', isLibrary ? 'text-melody-blue' : 'text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-50']" to="/library">
+            <router-link :class="['flex items-center px-2 pb-4 gap-x-4', isLibrary ? 'text-melody-blue' : 'text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-50']" to="/me/library">
               <i class="fa-solid fa-book w-5 h-auto"></i>
               <span class="text-md">Library</span>
             </router-link>
@@ -22,7 +30,7 @@
               <i class="fa-solid fa-plus w-5 h-auto"></i>
               <span class="text-md">Create Playlist</span>
             </button>
-            <router-link class="flex items-center px-2 pb-4 gap-x-4 text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-50" to="/library/tracks">
+            <router-link class="flex items-center px-2 pb-4 gap-x-4 text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-50" to="/me/tracks">
               <i class="fa-solid fa-heart w-5 h-auto"></i>
               <span class="text-md">Liked Tracks</span>
             </router-link>
@@ -45,7 +53,7 @@ import { defineComponent } from "vue";
 
 const HOME = "/";
 const SEARCH = "/search";
-const LIBRARY = "/library";
+const LIBRARY = "/me/library";
 
 export default defineComponent({
   name: "SideBar",
@@ -58,6 +66,14 @@ export default defineComponent({
     },
     isLibrary() {
       return this.$route.path == LIBRARY;
+    },
+  },
+  methods: {
+    back() {
+      this.$router.back();
+    },
+    forward() {
+      this.$router.forward();
     },
   },
 });
