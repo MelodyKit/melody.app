@@ -2,11 +2,11 @@
     "name": "app",
     "version": "0.1.0",
     "private": true,
+    "type": "module",
     "scripts": {
         "dev": "vite --port 4269",
         "build": "vite build",
-        "preview": "vite preview --port 4269",
-        "css": "tailwindcss --input static/css/input.css --output static/css/output.css --minify"
+        "preview": "vite preview --port 4269"
     },
     "dependencies": {
         "@headlessui/vue": "^1.7.10",

@@ -1,6 +1,6 @@
 import defaultTheme from "tailwindcss/defaultTheme";
 
-module.exports = {
+export default {
     content: ["./index.html", "./src/App.vue", "./src/components/*.vue", "./src/views/*.vue"],
     darkMode: "media",
     theme: {

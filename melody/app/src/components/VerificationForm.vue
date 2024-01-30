@@ -10,7 +10,7 @@
           <form class="space-y-4 md:space-y-6" @submit.prevent="verify">
             <div>
               <label for="name" class="block mb-2 text-neutral-900 dark:text-neutral-50">Verification token</label>
-              <input type="name" name="name" v-model="verificationData.verificationToken" class="bg-neutral-50 border border-neutral-300 text-neutral-900 sm:text-sm font-mono rounded-lg block w-full p-2.5 dark:bg-neutral-700 dark:border-neutral-600 dark:placeholder-neutral-400 dark:text-neutral-50" placeholder="token" required>
+              <input type="name" name="name" v-model="verificationData.verificationToken" class="bg-neutral-50 border border-neutral-300 text-neutral-900 sm:text-sm font-mono rounded-lg block w-full p-2.5 dark:bg-neutral-700 dark:border-neutral-600 dark:placeholder-neutral-400 dark:text-neutral-50 focus:outline-none" placeholder="token" required>
             </div>
             <button type="submit" class="w-full text-neutral-900 dark:text-neutral-50 bg-gradient-to-b from-melody-purple to-melody-blue rounded-lg px-5 py-2.5 text-center">Verify</button>
           </form>
