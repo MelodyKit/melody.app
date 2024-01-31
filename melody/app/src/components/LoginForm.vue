@@ -41,6 +41,7 @@ const userData = reactive(
   new UserData({
     email: null,
     password: null,
+    code: null,
   })
 );
 

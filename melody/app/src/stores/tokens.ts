@@ -9,7 +9,7 @@ import { ForgotData } from "@/models/data/forgot";
 import { RegisterData } from "@/models/data/register";
 import { ResetData } from "@/models/data/reset";
 import { UserData } from "@/models/data/user";
-import { VerificationData } from "@/models/data/verification";
+import { type VerificationToken } from "@/models/data/verificationToken";
 import { Tokens, tokensTypeFromModel, type TokensType } from "@/models/tokens";
 
 interface State {
@@ -67,8 +67,8 @@ export const useTokensStore = defineStore(
             async register(registerData: RegisterData) {
                 await axios.post("/register", registerData);
             },
-            async verify(verificationData: VerificationData) {
-                await axios.post(`/verify/${verificationData.verificationToken}`, null);
+            async verify(verificationToken: VerificationToken) {
+                await axios.post("/verify", verificationToken);
             },
             async forgot(forgotData: ForgotData) {
                 await axios.post("/forgot", forgotData);
