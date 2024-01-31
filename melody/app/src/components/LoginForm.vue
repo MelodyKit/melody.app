@@ -18,7 +18,7 @@
             </div>
             <div>
               <label for="code" class="block mb-2 text-neutral-900 dark:text-neutral-50">Code</label>
-              <input type="text" name="code" v-model="userData.code" class="bg-neutral-50 border border-neutral-300 text-neutral-900 sm:text-sm font-mono rounded-lg block w-full p-2.5 dark:bg-neutral-700 dark:border-neutral-600 dark:placeholder-neutral-400 dark:text-neutral-50 focus:outline-none" placeholder="000000">
+              <input type="text" name="code" v-model="userData.code" class="bg-neutral-50 border border-neutral-300 text-neutral-900 sm:text-sm font-mono rounded-lg block w-full p-2.5 dark:bg-neutral-700 dark:border-neutral-600 dark:placeholder-neutral-400 dark:text-neutral-50 focus:outline-none" inputmode="numeric" autocomplete="one-time-code">
             </div>
             <div class="flex items-center justify-between">
               <router-link class="text-neutral-600 hover:underline dark:text-neutral-500" to="/forgot">Forgot password?</router-link>
