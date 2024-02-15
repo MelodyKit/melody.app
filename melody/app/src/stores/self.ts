@@ -35,7 +35,7 @@ export const useSelfStore = defineStore(
             }
         ),
         getters: {
-            loaded: (state) => state.self != null,
+            loaded: (state) => state.self != null && state.image != null,
             stateSelf: (state) => {
                 const self = state.self;
 
@@ -84,10 +84,10 @@ export const useSelfStore = defineStore(
         },
         actions: {
             async fetchAll() {
-                await this.fetchImage();
                 await this.fetchSelf();
                 await this.fetchSettings();
                 // await this.fetchPlayerSettings();
+                await this.fetchImage();
             },
             async fetchSelf() {
                 const tokens = useTokensStore().stateTokens;
