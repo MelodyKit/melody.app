@@ -10,7 +10,7 @@
           <form class="space-y-4 md:space-y-6" @submit.prevent="verify">
             <div>
               <label for="name" class="block mb-2 text-neutral-900 dark:text-neutral-50">Verification token</label>
-              <input type="name" name="name" v-model="verificationToken" class="bg-neutral-50 border border-neutral-300 text-neutral-900 sm:text-sm font-mono rounded-lg block w-full p-2.5 dark:bg-neutral-700 dark:border-neutral-600 dark:placeholder-neutral-400 dark:text-neutral-50 focus:outline-none" placeholder="token" required>
+              <input type="name" name="name" v-model="verificationForm.verificationCode" class="bg-neutral-50 border border-neutral-300 text-neutral-900 sm:text-sm font-mono rounded-lg block w-full p-2.5 dark:bg-neutral-700 dark:border-neutral-600 dark:placeholder-neutral-400 dark:text-neutral-50 focus:outline-none" placeholder="token" required>
             </div>
             <button type="submit" class="w-full text-neutral-900 dark:text-neutral-50 bg-gradient-to-b from-melody-purple to-melody-blue rounded-lg px-5 py-2.5 text-center">Verify</button>
           </form>
@@ -21,14 +21,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, type Ref } from "vue";
+import { computed, reactive } from "vue";
 import { useRouter } from "vue-router";
 
 import { BASE_URL } from "@/constants";
-import type { VerificationToken } from "@/models/data/verificationToken";
 import { useTokensStore } from "@/stores/tokens";
+import { type VerificationForm, verificationDataFromForm } from "@/models/data/verification";
 
-const verificationToken: Ref<VerificationToken> = ref(null);
+const verificationForm: VerificationForm = reactive({verificationCode: null});
 
 const baseUrl = computed(() => BASE_URL);
 
@@ -37,7 +37,9 @@ const router = useRouter();
 const verify = async () => {
   const store = useTokensStore();
 
-  await store.verify(verificationToken.value);
+  const verificationData = verificationDataFromForm(verificationForm);
+
+  await store.verify(verificationData);
 
   await router.push("/");
 }

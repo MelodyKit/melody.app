@@ -10,7 +10,11 @@
           <form class="space-y-4 md:space-y-6" @submit.prevent="forgot">
             <div>
               <label for="email" class="block mb-2 text-neutral-900 dark:text-neutral-50">Email</label>
-              <input type="email" name="email" v-model="forgotData.email" class="bg-neutral-50 border border-neutral-300 text-neutral-900 sm:text-sm font-mono rounded-lg block w-full p-2.5 dark:bg-neutral-700 dark:border-neutral-600 dark:placeholder-neutral-400 dark:text-neutral-50 focus:outline-none" placeholder="email@example.com" required>
+              <input type="email" name="email" v-model="forgotForm.email" class="bg-neutral-50 border border-neutral-300 text-neutral-900 sm:text-sm font-mono rounded-lg block w-full p-2.5 dark:bg-neutral-700 dark:border-neutral-600 dark:placeholder-neutral-400 dark:text-neutral-50 focus:outline-none" placeholder="email@example.com" required>
+            </div>
+            <div>
+              <label for="code" class="block mb-2 text-neutral-900 dark:text-neutral-50">Code</label>
+              <input type="text" name="code" v-model="forgotForm.code" class="bg-neutral-50 border border-neutral-300 text-neutral-900 sm:text-sm font-mono rounded-lg block w-full p-2.5 dark:bg-neutral-700 dark:border-neutral-600 dark:placeholder-neutral-400 dark:text-neutral-50 focus:outline-none" inputmode="numeric" autocomplete="one-time-code">
             </div>
             <button type="submit" class="w-full text-neutral-900 dark:text-neutral-50 bg-gradient-to-b from-melody-purple to-melody-blue rounded-lg px-5 py-2.5 text-center">Send</button>
           </form>
@@ -25,21 +29,19 @@ import { computed, reactive } from "vue";
 import { useRouter } from "vue-router";
 
 import { BASE_URL } from "@/constants";
-import { ForgotData } from "@/models/data/forgot";
+import { type ForgotForm, forgotDataFromForm } from "@/models/data/forgot";
 import { useTokensStore } from "@/stores/tokens";
 
 const baseUrl = computed(() => BASE_URL);
 
-const forgotData = reactive(
-  new ForgotData({
-    email: null
-  })
-);
+const forgotForm: ForgotForm = reactive({email: null, code: null});
 
 const router = useRouter();
 
 const forgot = async () => {
   const store = useTokensStore();
+
+  const forgotData = forgotDataFromForm(forgotForm);
 
   await store.forgot(forgotData);
 

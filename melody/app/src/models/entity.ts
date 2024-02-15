@@ -1,35 +1,29 @@
-import { CreatedAt, type CreatedAtModel, type CreatedAtType } from "@/models/createdAt";
+import { Named, type NamedModel, type NamedType, namedTypeFromModel } from "@/models/named";
 
-export interface EntityModel extends CreatedAtModel {
-    name: string;
+import { type Optional } from "@/typing";
 
-    spotify_id: string | null;
-    apple_music_id: string | null;
-    yandex_music_id: string | null;
+export interface EntityModel extends NamedModel {
+    spotify_id: Optional<string>;
+    apple_music_id: Optional<string>;
+    yandex_music_id: Optional<string>;
 }
 
-export interface EntityType extends CreatedAtType {
-    name: string;
-
-    spotifyId: string | null;
-    appleMusicId: string | null;
-    yandexMusicId: string | null;
+export interface EntityType extends NamedType {
+    spotifyId: Optional<string>;
+    appleMusicId: Optional<string>;
+    yandexMusicId: Optional<string>;
 }
 
 export function entityTypeFromModel(model: EntityModel): EntityType {
     return {
-        id: model.id,
-        createdAt: model.created_at,
-        name: model.name,
+        ...namedTypeFromModel(model),
         spotifyId: model.spotify_id,
         appleMusicId: model.apple_music_id,
         yandexMusicId: model.yandex_music_id,
     };
 }
 
-export class Entity extends CreatedAt {
-    name: string;
-
+export class Entity extends Named {
     spotifyId: string | null;
     appleMusicId: string | null;
     yandexMusicId: string | null;
@@ -40,8 +34,6 @@ export class Entity extends CreatedAt {
 
     constructor(entity: EntityType) {
         super(entity);
-
-        this.name = entity.name;
 
         this.spotifyId = entity.spotifyId;
         this.appleMusicId = entity.appleMusicId;

@@ -1,17 +1,35 @@
-export interface RegisterDataType {
-    name: string | null;
-    email: string | null;
-    password: string | null;
+import { type Optional } from "@/typing";
+
+export interface RegisterForm {
+    name: Optional<string>;
+    email: Optional<string>;
+    password: Optional<string>;
 }
 
-export class RegisterData {
-    name: string | null;
-    email: string | null;
-    password: string | null;
+export interface RegisterData {
+    name: string;
+    email: string;
+    password: string;
+}
 
-    constructor(registerData: RegisterDataType) {
-        this.name = registerData.name;
-        this.email = registerData.email;
-        this.password = registerData.password;
+export function registerDataFromForm(form: RegisterForm): RegisterData {
+    const name = form.name;
+
+    if (name == null) {
+        throw new Error("expected name");
     }
+
+    const email = form.email;
+
+    if (email == null) {
+        throw new Error("expected email");
+    }
+
+    const password = form.password;
+
+    if (password == null) {
+        throw new Error("expected password");
+    }
+
+    return {name, email, password};
 }

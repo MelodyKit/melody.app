@@ -14,8 +14,7 @@ export enum ErrorCode {
 
     InternalServerError = 13500,
 
-    AuthenticationError = 13600,
-    AuthenticationInvalid = 13601,
-    AuthenticationMissing = 13602,
-    AuthenticationNotFound = 13603,
+    AuthError = 13600,
+    AuthExpected = 13601,
+    AuthInvalid = 13602,
 }

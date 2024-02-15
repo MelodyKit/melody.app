@@ -2,18 +2,23 @@ import axios from "axios";
 
 import { defineStore } from "pinia";
 
-import {
-    authorizationAccessHeader, authorizationDefaultHeader, authorizationRefreshHeader
-} from "@/authorization";
-import { ForgotData } from "@/models/data/forgot";
-import { RegisterData } from "@/models/data/register";
-import { ResetData } from "@/models/data/reset";
-import { UserData } from "@/models/data/user";
-import { type VerificationToken } from "@/models/data/verificationToken";
+import { authorizationDefaultHeader, authorizationHeader } from "@/authorization";
+import { GrantType } from "@/enums";
+import { type ForgotData } from "@/models/data/forgot";
+import { type RefreshData } from "@/models/data/refresh";
+import { type RegisterData } from "@/models/data/register";
+import { type ResetData } from "@/models/data/reset";
+import { type UserData } from "@/models/data/user";
+import { type VerificationData } from "@/models/data/verification";
 import { Tokens, tokensTypeFromModel, type TokensType } from "@/models/tokens";
 
+import { type Optional } from "@/typing";
+
+// NOTE: tokens state is persisted, therefore we can not use `Tokens` here
+// there are some workarounds, though, but they violate the type system
+
 interface State {
-    tokens: TokensType | null;
+    tokens: Optional<TokensType>;
 }
 
 export const useTokensStore = defineStore(
@@ -38,25 +43,26 @@ export const useTokensStore = defineStore(
         },
         actions: {
             async login(userData: UserData) {
-                let {data} = await axios.post("/login", userData);
+                const {data} = await axios.postForm("/login", userData);
 
                 this.setTokens(tokensTypeFromModel(data));
             },
             async refresh() {
-                let tokens = this.stateTokens;
+                const refreshTokenData: RefreshData = {
+                    grant_type: GrantType.RefreshToken,
+                    refresh_token: this.stateTokens.refreshToken,
+                }
 
-                let {data} = await axios.post(
-                    "/refresh", null, {headers: authorizationRefreshHeader(tokens)}
-                );
+                const {data} = await axios.postForm("/tokens", refreshTokenData);
 
                 this.setTokens(tokensTypeFromModel(data));
             },
             async logout() {
-                let tokens = this.stateTokens;
+                const tokens = this.stateTokens;
 
                 this.removeTokens();
 
-                await axios.post("/logout", null, {headers: authorizationAccessHeader(tokens)});
+                await axios.post("/logout", null, {headers: authorizationHeader(tokens)});
             },
             setTokens(tokens: TokensType) {
                 this.tokens = tokens;
@@ -65,35 +71,21 @@ export const useTokensStore = defineStore(
                 this.tokens = null;
             },
             async register(registerData: RegisterData) {
-                await axios.post("/register", registerData);
+                await axios.postForm("/register", registerData);
             },
-            async verify(verificationToken: VerificationToken) {
-                await axios.post("/verify", verificationToken);
+            async verify(verificationData: VerificationData) {
+                await axios.postForm("/verify", verificationData);
             },
             async forgot(forgotData: ForgotData) {
-                await axios.post("/forgot", forgotData);
+                await axios.postForm("/forgot", forgotData);
             },
             async reset(resetData: ResetData) {
                 const token = resetData.token;
 
-                if (token == null) {
-                    throw new Error("token is not present");
-                }
-
                 const password = resetData.password;
 
-                if (password == null) {
-                    throw new Error("password is not present");
-                }
-
-                const confirm = resetData.confirm;
-
-                if (password != confirm) {
-                    throw new Error("password mismatch");
-                }
-
-                await axios.post(
-                    "/reset", {password: password}, {headers: authorizationDefaultHeader(token)}
+                await axios.postForm(
+                    "/reset", {password}, {headers: authorizationDefaultHeader(token)}
                 );
 
                 this.removeTokens();

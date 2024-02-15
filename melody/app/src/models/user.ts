@@ -1,9 +1,9 @@
-import { Entity, type EntityModel, type EntityType } from "@/models/entity";
+import { Entity, type EntityModel, type EntityType, entityTypeFromModel } from "@/models/entity";
 import { PrivacyType, type PrivacyTypeLiteral } from "@/models/enums";
 
-export interface UserModel extends EntityModel {
-    uri: string;
+import { type Optional } from "@/typing";
 
+export interface UserModel extends EntityModel {
     follower_count: number;
 
     stream_count: number;
@@ -11,12 +11,10 @@ export interface UserModel extends EntityModel {
 
     privacy_type: PrivacyTypeLiteral;
 
-    discord_id: string | null;
+    discord_id: Optional<string>;
 }
 
 export interface UserType extends EntityType {
-    uri: string;
-
     followerCount: number;
 
     streamCount: number;
@@ -24,18 +22,12 @@ export interface UserType extends EntityType {
 
     privacyType: PrivacyTypeLiteral;
 
-    discordId: string | null;
+    discordId: Optional<string>;
 }
 
 export function userTypeFromModel(model: UserModel): UserType {
     return {
-        id: model.id,
-        createdAt: model.created_at,
-        name: model.name,
-        spotifyId: model.spotify_id,
-        appleMusicId: model.apple_music_id,
-        yandexMusicId: model.yandex_music_id,
-        uri: model.uri,
+        ...entityTypeFromModel(model),
         followerCount: model.follower_count,
         streamCount: model.stream_count,
         streamDurationMs: model.stream_duration_ms,
@@ -45,8 +37,6 @@ export function userTypeFromModel(model: UserModel): UserType {
 }
 
 export class User extends Entity {
-    uri: string;
-
     followerCount: number;
 
     streamCount: number;
@@ -62,8 +52,6 @@ export class User extends Entity {
 
     constructor(user: UserType) {
         super(user);
-
-        this.uri = user.uri;
 
         this.followerCount = user.followerCount;
 

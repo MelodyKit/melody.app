@@ -10,15 +10,15 @@
           <form class="space-y-4 md:space-y-6" @submit.prevent="reset">
             <div>
               <label for="token" class="block mb-2 text-neutral-900 dark:text-neutral-50">Temporary token</label>
-              <input type="password" name="token" v-model="resetData.token" class="bg-neutral-50 border border-neutral-300 text-neutral-900 sm:text-sm font-mono rounded-lg block w-full p-2.5 dark:bg-neutral-700 dark:border-neutral-600 dark:placeholder-neutral-400 dark:text-neutral-50 focus:outline-none" placeholder="••••••••" required>
+              <input type="password" name="token" v-model="resetForm.token" class="bg-neutral-50 border border-neutral-300 text-neutral-900 sm:text-sm font-mono rounded-lg block w-full p-2.5 dark:bg-neutral-700 dark:border-neutral-600 dark:placeholder-neutral-400 dark:text-neutral-50 focus:outline-none" placeholder="••••••••" required>
             </div>
             <div>
               <label for="password" class="block mb-2 text-neutral-900 dark:text-neutral-50">Password</label>
-              <input type="password" name="password" v-model="resetData.password" class="bg-neutral-50 border border-neutral-300 text-neutral-900 sm:text-sm font-mono rounded-lg block w-full p-2.5 dark:bg-neutral-700 dark:border-neutral-600 dark:placeholder-neutral-400 dark:text-neutral-50 focus:outline-none" placeholder="••••••••" required>
+              <input type="password" name="password" v-model="resetForm.password" class="bg-neutral-50 border border-neutral-300 text-neutral-900 sm:text-sm font-mono rounded-lg block w-full p-2.5 dark:bg-neutral-700 dark:border-neutral-600 dark:placeholder-neutral-400 dark:text-neutral-50 focus:outline-none" placeholder="••••••••" required>
             </div>
             <div>
               <label for="confirm" class="block mb-2 text-neutral-900 dark:text-neutral-50">Confirm password</label>
-              <input type="password" name="confirm" v-model="resetData.confirm" class="bg-neutral-50 border border-neutral-300 text-neutral-900 sm:text-sm font-mono rounded-lg block w-full p-2.5 dark:bg-neutral-700 dark:border-neutral-600 dark:placeholder-neutral-400 dark:text-neutral-50 focus:outline-none" placeholder="••••••••" required>
+              <input type="password" name="confirm" v-model="resetForm.confirm" class="bg-neutral-50 border border-neutral-300 text-neutral-900 sm:text-sm font-mono rounded-lg block w-full p-2.5 dark:bg-neutral-700 dark:border-neutral-600 dark:placeholder-neutral-400 dark:text-neutral-50 focus:outline-none" placeholder="••••••••" required>
             </div>
             <div class="flex items-center justify-between">
               <p class="text-neutral-600 dark:text-neutral-500">Note: changing the password revokes all sessions!</p>
@@ -36,16 +36,10 @@ import { computed, reactive } from "vue";
 import { useRouter } from "vue-router";
 
 import { BASE_URL } from "@/constants";
-import { ResetData } from "@/models/data/reset";
+import { type ResetForm, resetDataFromForm } from "@/models/data/reset";
 import { useTokensStore } from "@/stores/tokens";
 
-const resetData = reactive(
-  new ResetData({
-    token: null,
-    password: null,
-    confirm: null,
-  })
-);
+const resetForm: ResetForm = reactive({token: null, password: null, confirm: null});
 
 const baseUrl = computed(() => BASE_URL);
 
@@ -53,6 +47,8 @@ const router = useRouter();
 
 const reset = async () => {
   const store = useTokensStore();
+
+  const resetData = resetDataFromForm(resetForm);
 
   await store.reset(resetData);
 

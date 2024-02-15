@@ -1,19 +1,25 @@
 import axios from "axios";
 
+import { Buffer } from "buffer";
+
 import { defineStore } from "pinia";
 
-import { authorizationAccessHeader } from "@/authorization";
+import { authorizationHeader } from "@/authorization";
+import { ARRAY_BUFFER, BASE64, BINARY } from "@/constants";
 import { PlayerSettings } from "@/models/playerSettings";
 import { User } from "@/models/user";
 import { UserSettings } from "@/models/userSettings";
 
 import { useTokensStore } from "@/stores/tokens";
 
+import { type Optional } from "@/typing";
+
 interface State {
-    self: User | null;
-    settings: UserSettings | null;
-    playerSettings: PlayerSettings | null;
-    localPlayerSettings: PlayerSettings | null;
+    self: Optional<User>;
+    settings: Optional<UserSettings>;
+    playerSettings: Optional<PlayerSettings>;
+    localPlayerSettings: Optional<PlayerSettings>;
+    image: Optional<string>,
 }
 
 export const useSelfStore = defineStore(
@@ -25,6 +31,7 @@ export const useSelfStore = defineStore(
                 settings: null,
                 playerSettings: null,
                 localPlayerSettings: null,
+                image: null,
             }
         ),
         getters: {
@@ -65,41 +72,62 @@ export const useSelfStore = defineStore(
 
                 return localPlayerSettings;
             },
+            stateImage: (state) => {
+                const image = state.image;
+
+                if (image == null) {
+                    throw new Error("image is not present");
+                }
+
+                return image;
+            },
         },
         actions: {
             async fetchAll() {
+                await this.fetchImage();
                 await this.fetchSelf();
                 await this.fetchSettings();
                 // await this.fetchPlayerSettings();
             },
             async fetchSelf() {
-                let tokens = useTokensStore().stateTokens;
+                const tokens = useTokensStore().stateTokens;
 
-                let {data} = await axios.get("/me", {headers: authorizationAccessHeader(tokens)});
+                const {data} = await axios.get("/me", {headers: authorizationHeader(tokens)});
 
-                let self = User.fromModel(data);
+                const self = User.fromModel(data);
 
                 this.setSelf(self);
             },
             async fetchSettings() {
-                let tokens = useTokensStore().stateTokens;
+                const tokens = useTokensStore().stateTokens;
 
-                let {data} = await axios.get("/me/settings", {headers: authorizationAccessHeader(tokens)});
+                const {data} = await axios.get("/me/settings", {headers: authorizationHeader(tokens)});
 
-                let settings = UserSettings.fromModel(data);
+                const settings = UserSettings.fromModel(data);
 
                 this.setSettings(settings);
             },
             async fetchPlayerSettings() {
-                let tokens = useTokensStore().stateTokens;
+                const tokens = useTokensStore().stateTokens;
 
-                let {data} = await axios.get(
-                    "/me/player/settings", {headers: authorizationAccessHeader(tokens)}
+                const {data} = await axios.get(
+                    "/me/player/settings", {headers: authorizationHeader(tokens)}
                 );
 
-                let playerSettings = PlayerSettings.fromModel(data);
+                const playerSettings = PlayerSettings.fromModel(data);
 
                 this.setPlayerSettings(playerSettings);
+            },
+            async fetchImage() {
+                const tokens = useTokensStore().stateTokens;
+
+                const {data} = await axios.get(
+                    "/me/image", {headers: authorizationHeader(tokens), responseType: ARRAY_BUFFER}
+                );
+
+                const image = Buffer.from(data, BINARY).toString(BASE64);
+
+                this.setImage(image);
             },
             ensureLocalPlayerSettings() {
                 if (this.localPlayerSettings == null) {
@@ -115,10 +143,14 @@ export const useSelfStore = defineStore(
             setPlayerSettings(playerSettings: PlayerSettings) {
                 this.playerSettings = playerSettings;
             },
+            setImage(image: string) {
+                this.image = image;
+            },
             removeAll() {
                 this.removeSelf();
                 this.removeSettings();
                 this.removePlayerSettings();
+                this.removeImage();
             },
             removeSelf() {
                 this.self = null;
@@ -128,6 +160,9 @@ export const useSelfStore = defineStore(
             },
             removePlayerSettings() {
                 this.playerSettings = null;
+            },
+            removeImage() {
+                this.image = null;
             }
         },
     }

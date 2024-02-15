@@ -1,17 +1,38 @@
-export interface ResetDataType {
-    token: string | null;
-    password: string | null;
-    confirm: string | null;
+import { type Optional } from "@/typing";
+
+export interface ResetForm {
+    token: Optional<string>;
+    password: Optional<string>;
+    confirm: Optional<string>;
 }
 
-export class ResetData {
-    token: string | null;
-    password: string | null;
-    confirm: string | null;
+export interface ResetData {
+    token: string;
+    password: string;
+}
 
-    constructor(data: ResetDataType) {
-        this.token = data.token;
-        this.password = data.password;
-        this.confirm = data.confirm;
+export function resetDataFromForm(form: ResetForm): ResetData {
+    const token = form.token;
+
+    if (token == null) {
+        throw new Error("expected token");
     }
+
+    const password = form.password;
+
+    if (password == null) {
+        throw new Error("expected password");
+    }
+
+    const confirm = form.confirm;
+
+    if (confirm == null) {
+        throw new Error("expected confirm");
+    }
+
+    if (password != confirm) {
+        throw new Error("password mismatch");
+    }
+
+    return {token, password};
 }
