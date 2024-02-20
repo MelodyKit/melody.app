@@ -31,31 +31,33 @@ axios.defaults.baseURL = API_URL;
 axios.interceptors.response.use(
     (response) => response,
     async (error: AxiosError<any>) => {
-        if (error.response?.data.code != ErrorCode.AuthInvalid) {
-            throw error;
+        const code = error.response?.data.code;
+
+        if (code == ErrorCode.AuthAccessTokenInvalid) {
+            const config = error.config;
+
+            if (!config) {
+                throw new Error("config is not present; can not retry");
+            }
+
+            const store = useTokensStore();
+
+            await store.refresh();
+
+            config.headers[AUTHORIZATION] = authorization(store.stateTokens);
+
+            return await axios.request(config);
         }
 
-        const config = error.config;
+        if (code == ErrorCode.AuthRefreshTokenInvalid) {
+            const store = useTokensStore();
 
-        if (!config) {
-            throw new Error("config is not present; can not retry");
-        }
-
-        const store = useTokensStore();
-
-        console.log(config);
-
-        if (config.url == TOKENS && config.data.has(REFRESH_TOKEN)) {
             store.removeTokens();
 
             throw new Error("refresh failed; tokens removed");
         }
 
-        await store.refresh();
-
-        config.headers[AUTHORIZATION] = authorization(store.stateTokens);
-
-        return await axios.request(config);
+        throw error;
     }
 )
 

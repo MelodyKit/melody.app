@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 
+import AuthorizeView from "@/views/AuthorizeView.vue";
 import ForgotView from "@/views/ForgotView.vue";
 import HomeView from "@/views/HomeView.vue";
 import LibraryView from "@/views/LibraryView.vue";
@@ -16,6 +17,11 @@ const routes = [
     path: "/",
     name: "home",
     component: HomeView,
+  },
+  {
+    path: "/authorize",
+    name: "authorize",
+    component: AuthorizeView,
   },
   {
     path: "/search",
