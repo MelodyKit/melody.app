@@ -1,17 +1,17 @@
-import { Named, type NamedModel, type NamedType, namedTypeFromModel } from "@/models/named";
+import { Named, type NamedModel, type NamedType, namedTypeFromModel } from "@/api/models/named";
 
-import { type Optional } from "@/typing";
+import { type Nullable } from "@/nullable";
 
 export interface EntityModel extends NamedModel {
-    spotify_id: Optional<string>;
-    apple_music_id: Optional<string>;
-    yandex_music_id: Optional<string>;
+    spotify_id: Nullable<string>;
+    apple_music_id: Nullable<string>;
+    yandex_music_id: Nullable<string>;
 }
 
 export interface EntityType extends NamedType {
-    spotifyId: Optional<string>;
-    appleMusicId: Optional<string>;
-    yandexMusicId: Optional<string>;
+    spotifyId: Nullable<string>;
+    appleMusicId: Nullable<string>;
+    yandexMusicId: Nullable<string>;
 }
 
 export function entityTypeFromModel(model: EntityModel): EntityType {
@@ -24,9 +24,9 @@ export function entityTypeFromModel(model: EntityModel): EntityType {
 }
 
 export class Entity extends Named {
-    spotifyId: string | null;
-    appleMusicId: string | null;
-    yandexMusicId: string | null;
+    spotifyId: Nullable<string>;
+    appleMusicId: Nullable<string>;
+    yandexMusicId: Nullable<string>;
 
     static fromModel(model: EntityModel) {
         return new this(entityTypeFromModel(model));

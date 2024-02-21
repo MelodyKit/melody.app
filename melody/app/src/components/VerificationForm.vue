@@ -24,9 +24,9 @@
 import { computed, reactive } from "vue";
 import { useRouter } from "vue-router";
 
-import { BASE_URL } from "@/constants";
+import { BASE_URL } from "@/api/constants";
 import { useTokensStore } from "@/stores/tokens";
-import { type VerificationForm, verificationDataFromForm } from "@/models/data/verification";
+import { type VerificationForm, verificationFormIntoData } from "@/forms/verification";
 
 const verificationForm: VerificationForm = reactive({verificationCode: null});
 
@@ -35,11 +35,11 @@ const baseUrl = computed(() => BASE_URL);
 const router = useRouter();
 
 const verify = async () => {
-  const store = useTokensStore();
+  const client = useTokensStore().stateClient;
 
-  const verificationData = verificationDataFromForm(verificationForm);
+  const verificationData = verificationFormIntoData(verificationForm);
 
-  await store.verify(verificationData);
+  await client.verify(verificationData);
 
   await router.push("/");
 }

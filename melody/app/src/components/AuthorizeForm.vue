@@ -17,37 +17,60 @@
 </template>
 
 <script setup lang="ts">
-import axios from "axios";
-
 import { computed } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { useRoute } from "vue-router";
 
-import { BASE_URL } from "@/constants";
+import { BASE_URL } from "@/api/constants";
 import { useTokensStore } from "@/stores/tokens";
-import { authorizationHeader } from "@/authorization";
+import { SCOPE_SEPARATOR } from "@/scopes";
 
 const baseUrl = computed(() => BASE_URL);
 
-const router = useRouter();
 const route = useRoute();
 
+const query = route.query;
+
+const clientId = query.clientId;
+
+if (typeof clientId != "string") {
+  throw new Error("invalid client ID");
+}
+
+const redirectUri = query.redirectUri;
+
+if (typeof redirectUri != "string") {
+  throw new Error("invalid redirect URI");
+}
+
+const state = query.state;
+
+if (typeof state != "string") {
+  throw new Error("invalid state");
+}
+
+const maybeScope = query.scope;
+
+const scopes = (
+  maybeScope != null && typeof maybeScope == "string" ? maybeScope.split(SCOPE_SEPARATOR) : []
+);
+
+const scope = scopes.join(SCOPE_SEPARATOR);
+
 const authorize = async () => {
-  const tokens = useTokensStore().stateTokens;
+  const client = useTokensStore().stateClient;
 
-  const redirectUri = route.query.redirect_uri;
+  const authorizationCode = await client.authorize({
+    clientId,
+    redirectUri,
+    scope,
+    state,
+  });
 
-  console.log(redirectUri instanceof String);
-
-  if (typeof redirectUri != "string") {
-    throw new Error("invalid redirect URI");
-  }
-
-  const {data} = await axios.postForm(
-    "/authorize", route.query, {headers: authorizationHeader(tokens)}
-  );
-
-  const parameters = new URLSearchParams(data);
+  const parameters = new URLSearchParams({
+    code: authorizationCode.code,
+    state: authorizationCode.state,
+  });
 
   location.href = `${redirectUri}?${parameters}`;
-}
+};
 </script>

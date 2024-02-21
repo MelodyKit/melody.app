@@ -1,4 +1,4 @@
-import { Tokens } from "@/models/tokens";
+import { Tokens } from "@/api/models/tokens";
 
 export const AUTHORIZATION = "Authorization";
 export const DEFAULT_TOKEN_TYPE = "Bearer";

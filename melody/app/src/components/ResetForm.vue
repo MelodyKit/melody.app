@@ -35,8 +35,8 @@
 import { computed, reactive } from "vue";
 import { useRouter } from "vue-router";
 
-import { BASE_URL } from "@/constants";
-import { type ResetForm, resetDataFromForm } from "@/models/data/reset";
+import { BASE_URL } from "@/api/constants";
+import { type ResetForm, resetFormIntoDataAndToken } from "@/forms/reset";
 import { useTokensStore } from "@/stores/tokens";
 
 const resetForm: ResetForm = reactive({token: null, password: null, confirm: null});
@@ -48,10 +48,11 @@ const router = useRouter();
 const reset = async () => {
   const store = useTokensStore();
 
-  const resetData = resetDataFromForm(resetForm);
+  const resetDataAndToken = resetFormIntoDataAndToken(resetForm);
 
-  await store.reset(resetData);
+  await store.reset(resetDataAndToken);
 
   await router.push("/");
 }
 </script>
+store

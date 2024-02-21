@@ -1,11 +1,11 @@
-import { Platform, type PlatformLiteral, PrivacyType, type PrivacyTypeLiteral } from "@/models/enums";
+import { Platform, type PlatformLiteral, PrivacyType, type PrivacyTypeLiteral } from "@/api/enums";
 
 export interface UserSettingsModel {
     name: string;
     explicit: boolean;
     autoplay: boolean;
-    platform: PlatformLiteral;
-    privacy_type: PrivacyTypeLiteral;
+    platform: string;
+    privacy_type: string;
 }
 
 export interface UserSettingsType {
@@ -21,8 +21,8 @@ export function userSettingsTypeFromModel(model: UserSettingsModel): UserSetting
         name: model.name,
         explicit: model.explicit,
         autoplay: model.autoplay,
-        platform: model.platform,
-        privacyType: model.privacy_type,
+        platform: model.platform as PlatformLiteral,  // TODO: validate?
+        privacyType: model.privacy_type as PrivacyTypeLiteral,  // TODO: validate?
     };
 }
 

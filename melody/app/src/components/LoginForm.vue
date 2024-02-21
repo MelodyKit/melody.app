@@ -10,15 +10,15 @@
           <form class="space-y-4 md:space-y-6" @submit.prevent="login">
             <div>
               <label for="email" class="block mb-2 text-neutral-900 dark:text-neutral-50">Email</label>
-              <input type="email" name="email" v-model="userForm.email" class="bg-neutral-50 border border-neutral-300 text-neutral-900 sm:text-sm font-mono rounded-lg block w-full p-2.5 dark:bg-neutral-700 dark:border-neutral-600 dark:placeholder-neutral-400 dark:text-neutral-50 focus:outline-none" placeholder="email@example.com" required>
+              <input type="email" name="email" v-model="loginForm.email" class="bg-neutral-50 border border-neutral-300 text-neutral-900 sm:text-sm font-mono rounded-lg block w-full p-2.5 dark:bg-neutral-700 dark:border-neutral-600 dark:placeholder-neutral-400 dark:text-neutral-50 focus:outline-none" placeholder="email@example.com" required>
             </div>
             <div>
               <label for="password" class="block mb-2 text-neutral-900 dark:text-neutral-50">Password</label>
-              <input type="password" name="password" v-model="userForm.password" class="bg-neutral-50 border border-neutral-300 text-neutral-900 sm:text-sm font-mono rounded-lg block w-full p-2.5 dark:bg-neutral-700 dark:border-neutral-600 dark:placeholder-neutral-400 dark:text-neutral-50 focus:outline-none" placeholder="••••••••" required>
+              <input type="password" name="password" v-model="loginForm.password" class="bg-neutral-50 border border-neutral-300 text-neutral-900 sm:text-sm font-mono rounded-lg block w-full p-2.5 dark:bg-neutral-700 dark:border-neutral-600 dark:placeholder-neutral-400 dark:text-neutral-50 focus:outline-none" placeholder="••••••••" required>
             </div>
             <div>
               <label for="code" class="block mb-2 text-neutral-900 dark:text-neutral-50">Code</label>
-              <input type="text" name="code" v-model="userForm.code" class="bg-neutral-50 border border-neutral-300 text-neutral-900 sm:text-sm font-mono rounded-lg block w-full p-2.5 dark:bg-neutral-700 dark:border-neutral-600 dark:placeholder-neutral-400 dark:text-neutral-50 focus:outline-none" inputmode="numeric" autocomplete="one-time-code">
+              <input type="text" name="code" v-model="loginForm.code" class="bg-neutral-50 border border-neutral-300 text-neutral-900 sm:text-sm font-mono rounded-lg block w-full p-2.5 dark:bg-neutral-700 dark:border-neutral-600 dark:placeholder-neutral-400 dark:text-neutral-50 focus:outline-none" inputmode="numeric" autocomplete="one-time-code">
             </div>
             <div class="flex items-center justify-between">
               <router-link class="text-neutral-600 hover:underline dark:text-neutral-500" to="/forgot">Forgot password?</router-link>
@@ -37,19 +37,19 @@
 <script setup lang="ts">
 import { computed, reactive } from "vue";
 
-import { BASE_URL } from "@/constants";
-import { userDataFromForm, type UserForm } from "@/models/data/user";
+import { BASE_URL } from "@/api/constants";
+import { loginFormIntoData, type LoginForm } from "@/forms/login";
 import { useTokensStore } from "@/stores/tokens";
 
-const userForm: UserForm = reactive({email: null, password: null, code: null});
+const loginForm: LoginForm = reactive({email: null, password: null, code: null});
 
 const baseUrl = computed(() => BASE_URL);
 
 const login = async () => {
-  const tokensStore = useTokensStore();
+  const store = useTokensStore();
 
-  const userData = userDataFromForm(userForm);
+  const loginData = loginFormIntoData(loginForm);
 
-  await tokensStore.login(userData);
+  await store.login(loginData);
 }
 </script>

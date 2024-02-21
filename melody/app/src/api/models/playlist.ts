@@ -1,28 +1,30 @@
-import { Entity, type EntityModel, type EntityType, entityTypeFromModel } from "@/models/entity";
-import { PrivacyType, type PrivacyTypeLiteral } from "@/models/enums";
-import { User, type UserModel, type UserType, userTypeFromModel } from "@/models/user";
-import { type Optional } from "@/typing";
+import { PrivacyType, type PrivacyTypeLiteral } from "@/api/enums";
+
+import { Entity, type EntityModel, type EntityType, entityTypeFromModel } from "@/api/models/entity";
+import { User, type UserModel, type UserType, userTypeFromModel } from "@/api/models/user";
+
+import { type Nullable } from "@/nullable";
 
 export interface PlaylistModel extends EntityModel {
-    owner: Optional<UserModel>;
+    owner: Nullable<UserModel>;
 
     follower_count: number;
 
-    description: Optional<string>;
+    description: Nullable<string>;
 
     duration_ms: number;
 
     track_count: number;
 
-    privacy_type: PrivacyTypeLiteral;
+    privacy_type: string;
 }
 
 export interface PlaylistType extends EntityType {
-    owner: Optional<UserType>;
+    owner: Nullable<UserType>;
 
     followerCount: number;
 
-    description: Optional<string>;
+    description: Nullable<string>;
 
     durationMs: number;
 
@@ -43,16 +45,16 @@ export function playlistTypeFromModel(model: PlaylistModel): PlaylistType {
         description: model.description,
         durationMs: model.duration_ms,
         trackCount: model.track_count,
-        privacyType: model.privacy_type,
+        privacyType: model.privacy_type as PrivacyTypeLiteral,  // TODO: validate?
     };
 }
 
 export class Playlist extends Entity {
-    owner: Optional<User>;
+    owner: Nullable<User>;
 
     followerCount: number;
 
-    description: Optional<string>;
+    description: Nullable<string>;
 
     durationMs: number;
 

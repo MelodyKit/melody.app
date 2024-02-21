@@ -15,22 +15,19 @@ import App from "@/App.vue";
 
 import router from "@/router";
 
-import { AUTHORIZATION, authorization } from "@/authorization";
-import { API_URL, FALLBACK_LOCALE } from "@/constants";
-import { ErrorCode } from "@/errors";
-import { MESSAGES } from "@/messages";
+import { instance } from "@/api/client";
+import { ErrorCode } from "@/api/codes";
+import { Error as APIError } from "@/api/models/error";
+
+import { AUTHORIZATION, authorization } from "@/api/authorization";
+
 import { useTokensStore } from "@/stores/tokens";
 
-const ID = "#app";
+import { DEFAULT_LOCALE, MESSAGES } from "@/i18n";
 
-const TOKENS = "/tokens";
-const REFRESH_TOKEN = "refresh_token";
-
-axios.defaults.withCredentials = true;
-axios.defaults.baseURL = API_URL;
-axios.interceptors.response.use(
+instance.interceptors.response.use(
     (response) => response,
-    async (error: AxiosError<any>) => {
+    async (error: AxiosError<APIError>) => {
         const code = error.response?.data.code;
 
         if (code == ErrorCode.AuthAccessTokenInvalid) {
@@ -61,8 +58,12 @@ axios.interceptors.response.use(
     }
 )
 
+const ID = "#app";
+
 const i18n = createI18n({
-    legacy: false
+    fallbackLocale: DEFAULT_LOCALE,
+    messages: MESSAGES,
+    legacy: false,
 });
 
 const pinia = createPinia();

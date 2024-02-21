@@ -1,24 +1,16 @@
-import axios from "axios";
-
 import { defineStore } from "pinia";
 
-import { authorizationDefaultHeader, authorizationHeader } from "@/authorization";
-import { GrantType } from "@/enums";
-import { type ForgotData } from "@/models/data/forgot";
-import { type RefreshData } from "@/models/data/refresh";
-import { type RegisterData } from "@/models/data/register";
-import { type ResetData } from "@/models/data/reset";
-import { type UserData } from "@/models/data/user";
-import { type VerificationData } from "@/models/data/verification";
-import { Tokens, tokensTypeFromModel, type TokensType } from "@/models/tokens";
+import { Client } from "@/api/client";
 
-import { type Optional } from "@/typing";
+import { type LoginData } from "@/api/data/login";
+import { type ResetDataAndToken } from "@/api/data/reset";
 
-// NOTE: tokens state is persisted, therefore we can not use `Tokens` here
-// there are some workarounds, though, but they violate the type system
+import { Tokens } from "@/api/models/tokens";
+
+import { type Nullable } from "@/nullable";
 
 interface State {
-    tokens: Optional<TokensType>;
+    tokens: Nullable<Tokens>;
 }
 
 export const useTokensStore = defineStore(
@@ -38,59 +30,59 @@ export const useTokensStore = defineStore(
                     throw new Error("tokens are not present");
                 }
 
-                return new Tokens(tokens);
+                return tokens;
             },
+            stateClient: (state) => {
+                return new Client(state.tokens);
+            }
         },
         actions: {
-            async login(userData: UserData) {
-                const {data} = await axios.postForm("/login", userData);
+            async login(loginData: LoginData) {
+                const client = this.stateClient;
 
-                this.setTokens(tokensTypeFromModel(data));
+                const tokens = await client.login(loginData);
+
+                this.setTokens(tokens);
             },
             async refresh() {
-                const refreshTokenData: RefreshData = {
-                    grant_type: GrantType.RefreshToken,
-                    refresh_token: this.stateTokens.refreshToken,
-                }
+                const client = this.stateClient;
 
-                const {data} = await axios.postForm("/tokens", refreshTokenData);
+                const tokens = await client.refresh();
 
-                this.setTokens(tokensTypeFromModel(data));
+                this.setTokens(tokens);
             },
-            async logout() {
-                const tokens = this.stateTokens;
+            async revoke() {
+                const client = this.stateClient;
+
+                await client.revoke();
 
                 this.removeTokens();
-
-                await axios.post("/logout", null, {headers: authorizationHeader(tokens)});
             },
-            setTokens(tokens: TokensType) {
+            async reset(resetDataAndToken: ResetDataAndToken) {
+                const [resetData, token] = resetDataAndToken;
+
+                const client = this.stateClient;
+
+                await client.reset(resetData, token);
+
+                this.removeTokens();
+            },
+            setTokens(tokens: Tokens) {
                 this.tokens = tokens;
             },
             removeTokens() {
                 this.tokens = null;
             },
-            async register(registerData: RegisterData) {
-                await axios.postForm("/register", registerData);
-            },
-            async verify(verificationData: VerificationData) {
-                await axios.postForm("/verify", verificationData);
-            },
-            async forgot(forgotData: ForgotData) {
-                await axios.postForm("/forgot", forgotData);
-            },
-            async reset(resetData: ResetData) {
-                const token = resetData.token;
-
-                const password = resetData.password;
-
-                await axios.postForm(
-                    "/reset", {password}, {headers: authorizationDefaultHeader(token)}
-                );
-
-                this.removeTokens();
-            }
         },
-        persist: true,
+        persist: {
+            serializer: {
+                serialize: (state) => JSON.stringify(state.tokens),
+                deserialize: (data) => {
+                    const tokens = new Tokens(JSON.parse(data));
+
+                    return {tokens};
+                },
+            }
+        }
     }
 )

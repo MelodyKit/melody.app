@@ -28,9 +28,9 @@
 import { computed, reactive } from "vue";
 import { useRouter } from "vue-router";
 
-import { BASE_URL } from "@/constants";
-import { type ForgotForm, forgotDataFromForm } from "@/models/data/forgot";
+import { BASE_URL } from "@/api/constants";
 import { useTokensStore } from "@/stores/tokens";
+import { type ForgotForm, forgotFormIntoData } from "@/forms/forgot";
 
 const baseUrl = computed(() => BASE_URL);
 
@@ -39,11 +39,11 @@ const forgotForm: ForgotForm = reactive({email: null, code: null});
 const router = useRouter();
 
 const forgot = async () => {
-  const store = useTokensStore();
+  const client = useTokensStore().stateClient;
 
-  const forgotData = forgotDataFromForm(forgotForm);
+  const forgotData = forgotFormIntoData(forgotForm);
 
-  await store.forgot(forgotData);
+  await client.forgot(forgotData);
 
   await router.push("/reset");
 }

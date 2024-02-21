@@ -47,7 +47,7 @@ const image = computed(() => {
 const logout = async () => {
   const tokensStore = useTokensStore();
 
-  await tokensStore.logout();
+  await tokensStore.revoke();
 
   const selfStore = useSelfStore();
 

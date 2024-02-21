@@ -10,3 +10,5 @@ export const USER_IMAGE_READ = "user-image-read";
 export const USER_IMAGE_WRITE = "user-image-write";
 export const USER_STREAMS_READ = "user-streams-read";
 export const USER_STREAMS_WRITE = "user-streams-write";
+
+export const SCOPE_SEPARATOR = " ";

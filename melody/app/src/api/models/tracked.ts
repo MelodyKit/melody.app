@@ -1,4 +1,4 @@
-import { Base, type BaseModel, type BaseType, baseTypeFromModel } from "@/models/base";
+import { Base, type BaseModel, type BaseType, baseTypeFromModel } from "@/api/models/base";
 
 export interface TrackedModel extends BaseModel {
     created_at: string;

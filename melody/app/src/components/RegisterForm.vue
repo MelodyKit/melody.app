@@ -32,8 +32,8 @@
 import { computed, reactive } from "vue";
 import { useRouter } from "vue-router";
 
-import { BASE_URL } from "@/constants";
-import { type RegisterForm, registerDataFromForm } from "@/models/data/register";
+import { BASE_URL } from "@/api/constants";
+import { registerFormIntoData, type RegisterForm } from "@/forms/register";
 import { useTokensStore } from "@/stores/tokens";
 
 const registerForm: RegisterForm = reactive({name: null, email: null, password: null});
@@ -43,11 +43,11 @@ const baseUrl = computed(() => BASE_URL);
 const router = useRouter();
 
 const register = async () => {
-  const store = useTokensStore();
+  const client = useTokensStore().stateClient;
 
-  const registerData = registerDataFromForm(registerForm);
+  const registerData = registerFormIntoData(registerForm);
 
-  await store.register(registerData);
+  await client.register(registerData);
 
   await router.push("/verify");
 };

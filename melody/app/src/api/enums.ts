@@ -1,10 +1,3 @@
-export type AlbumTypeLiteral = "album" | "single" | "compilation";
-export type PrivacyTypeLiteral = "public" | "friends" | "private";
-
-export type PlatformLiteral = "any" | "spotify" | "apple_music" | "yandex_music";
-
-export type RepeatLiteral = "none" | "context" | "one";
-
 export enum AlbumType {
     Album = "album",
     Single = "single",
@@ -12,12 +5,16 @@ export enum AlbumType {
     Default = Album,
 }
 
+export type AlbumTypeLiteral = `${AlbumType}`;
+
 export enum PrivacyType {
     Public = "public",
     Friends = "friends",
     Private = "private",
     Default = Public,
 }
+
+export type PrivacyTypeLiteral = `${PrivacyType}`;
 
 export enum Platform {
     Any = "any",
@@ -27,12 +24,16 @@ export enum Platform {
     Default = Any,
 }
 
+export type PlatformLiteral = `${Platform}`;
+
 export enum Repeat {
     None = "none",
     Context = "context",
     One = "one",
     Default = None,
 }
+
+export type RepeatLiteral = `${Repeat}`;
 
 export function nextRepeat(repeat: Repeat): Repeat {
     switch (repeat) {
@@ -52,6 +53,8 @@ export enum Volume {
     High = "high",
 }
 
+export type VolumeLiteral = `${Volume}`;
+
 export function getVolume(volume: number): Volume {
     if (volume > 0.75) {
         return Volume.High;
@@ -63,3 +66,11 @@ export function getVolume(volume: number): Volume {
         return Volume.Off;
     }
 }
+
+export enum GrantType {
+    AuthorizationCode = "authorization_code",
+    ClientCredentials = "client_credentials",
+    RefreshToken = "refresh_token",
+}
+
+export type GrantTypeLiteral = `${GrantType}`;

@@ -1,7 +1,8 @@
-import { Entity, type EntityModel, type EntityType, entityTypeFromModel } from "@/models/entity";
-import { PrivacyType, type PrivacyTypeLiteral } from "@/models/enums";
+import { PrivacyType, type PrivacyTypeLiteral } from "@/api/enums";
 
-import { type Optional } from "@/typing";
+import { Entity, type EntityModel, type EntityType, entityTypeFromModel } from "@/api/models/entity";
+
+import { type Nullable } from "@/nullable";
 
 export interface UserModel extends EntityModel {
     follower_count: number;
@@ -9,9 +10,9 @@ export interface UserModel extends EntityModel {
     stream_count: number;
     stream_duration_ms: number;
 
-    privacy_type: PrivacyTypeLiteral;
+    privacy_type: string;
 
-    discord_id: Optional<string>;
+    discord_id: Nullable<string>;
 }
 
 export interface UserType extends EntityType {
@@ -22,7 +23,7 @@ export interface UserType extends EntityType {
 
     privacyType: PrivacyTypeLiteral;
 
-    discordId: Optional<string>;
+    discordId: Nullable<string>;
 }
 
 export function userTypeFromModel(model: UserModel): UserType {
@@ -31,7 +32,7 @@ export function userTypeFromModel(model: UserModel): UserType {
         followerCount: model.follower_count,
         streamCount: model.stream_count,
         streamDurationMs: model.stream_duration_ms,
-        privacyType: model.privacy_type,
+        privacyType: model.privacy_type as PrivacyTypeLiteral,  // TODO: validate?
         discordId: model.discord_id,
     };
 }
@@ -44,22 +45,19 @@ export class User extends Entity {
 
     privacyType: PrivacyType;
 
-    discordId: string | null;
+    discordId: Nullable<string>;
 
-    static fromModel(model: UserModel) {
-        return new this(userTypeFromModel(model));
+    static fromModel(model: UserModel): User {
+        return new User(userTypeFromModel(model));
     }
 
     constructor(user: UserType) {
         super(user);
 
         this.followerCount = user.followerCount;
-
         this.streamCount = user.streamCount;
         this.streamDurationMs = user.streamDurationMs;
-
         this.privacyType = user.privacyType as PrivacyType;
-
         this.discordId = user.discordId;
     }
 }

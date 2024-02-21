@@ -80,3 +80,5 @@ export enum ErrorCode {
     ImageTooLarge = 13903,
     ValidationError = 14000,
 }
+
+export type ErrorCodeLiteral = `${ErrorCode}` extends `${infer V extends number}` ? V : never;

@@ -1,25 +1,20 @@
-import axios from "axios";
-
-import { Buffer } from "buffer";
-
 import { defineStore } from "pinia";
 
-import { authorizationHeader } from "@/authorization";
-import { ARRAY_BUFFER, BASE64, BINARY } from "@/constants";
-import { PlayerSettings } from "@/models/playerSettings";
-import { User } from "@/models/user";
-import { UserSettings } from "@/models/userSettings";
+import { BASE64 } from "@/constants";
+import { PlayerSettings } from "@/api/models/playerSettings";
+import { User } from "@/api/models/user";
+import { UserSettings } from "@/api/models/userSettings";
 
 import { useTokensStore } from "@/stores/tokens";
 
-import { type Optional } from "@/typing";
+import { type Nullable } from "@/nullable";
 
 interface State {
-    self: Optional<User>;
-    settings: Optional<UserSettings>;
-    playerSettings: Optional<PlayerSettings>;
-    localPlayerSettings: Optional<PlayerSettings>;
-    image: Optional<string>,
+    self: Nullable<User>;
+    settings: Nullable<UserSettings>;
+    playerSettings: Nullable<PlayerSettings>;
+    localPlayerSettings: Nullable<PlayerSettings>;
+    image: Nullable<string>,
 }
 
 export const useSelfStore = defineStore(
@@ -90,42 +85,28 @@ export const useSelfStore = defineStore(
                 await this.fetchImage();
             },
             async fetchSelf() {
-                const tokens = useTokensStore().stateTokens;
+                const client = useTokensStore().stateClient;
 
-                const {data} = await axios.get("/me", {headers: authorizationHeader(tokens)});
-
-                const self = User.fromModel(data);
+                const self = await client.fetchSelf();
 
                 this.setSelf(self);
             },
             async fetchSettings() {
-                const tokens = useTokensStore().stateTokens;
+                const client = useTokensStore().stateClient;
 
-                const {data} = await axios.get("/me/settings", {headers: authorizationHeader(tokens)});
-
-                const settings = UserSettings.fromModel(data);
+                const settings = await client.fetchSelfSettings();
 
                 this.setSettings(settings);
             },
             async fetchPlayerSettings() {
-                const tokens = useTokensStore().stateTokens;
-
-                const {data} = await axios.get(
-                    "/me/player/settings", {headers: authorizationHeader(tokens)}
-                );
-
-                const playerSettings = PlayerSettings.fromModel(data);
-
-                this.setPlayerSettings(playerSettings);
+                // TODO: implement when the API endpoint becomes available
             },
             async fetchImage() {
-                const tokens = useTokensStore().stateTokens;
+                const client = useTokensStore().stateClient;
 
-                const {data} = await axios.get(
-                    "/me/image", {headers: authorizationHeader(tokens), responseType: ARRAY_BUFFER}
-                );
+                const data = await client.fetchSelfImage();
 
-                const image = Buffer.from(data, BINARY).toString(BASE64);
+                const image = data.toString(BASE64);
 
                 this.setImage(image);
             },
