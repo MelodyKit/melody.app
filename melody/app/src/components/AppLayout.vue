@@ -14,7 +14,7 @@
         </div>
       </div>
     </div>
-    <!--- <PlayerControls/> -->
+    <PlayerControls/>
   </div>
   <LoginForm v-else/>
 </template>

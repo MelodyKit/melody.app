@@ -17,7 +17,7 @@ import router from "@/router";
 
 import { instance } from "@/api/client";
 import { ErrorCode } from "@/api/codes";
-import { Error as APIError } from "@/api/models/error";
+import { Error as ApiError } from "@/api/models/error";
 
 import { AUTHORIZATION, authorization } from "@/api/authorization";
 
@@ -27,7 +27,7 @@ import { DEFAULT_LOCALE, MESSAGES } from "@/i18n";
 
 instance.interceptors.response.use(
     (response) => response,
-    async (error: AxiosError<APIError>) => {
+    async (error: AxiosError<ApiError>) => {
         const code = error.response?.data.code;
 
         if (code == ErrorCode.AuthAccessTokenInvalid) {

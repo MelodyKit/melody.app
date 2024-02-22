@@ -23,7 +23,7 @@
           <i class="fa-solid fa-forward h-5 w-auto text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-neutral-50"></i>
         </button>
         <div class="relative">
-          <button type="button" @click="currentPlayerSettings.toggleRepeat()" :class="[currentPlayerSettings.isRepeatAny() ? 'text-melody-blue' : 'text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-50']">
+          <button type="button" @click="currentPlayerSettings.cycleRepeat()" :class="[currentPlayerSettings.isRepeat() ? 'text-melody-blue' : 'text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-50']">
             <span v-if="currentPlayerSettings.isRepeatOne()">
               <i class="fa-solid fa-repeat-1 h-5 w-auto"></i>
             </span>
@@ -31,7 +31,7 @@
               <i class="fa-solid fa-repeat h-5 w-auto"></i>
             </span>
           </button>
-          <span v-if="currentPlayerSettings.isRepeatAny()" class="text-melody-blue">
+          <span v-if="currentPlayerSettings.isRepeat()" class="text-melody-blue">
             <i class="fa-solid fa-circle h-2 w-auto px-2 absolute block"></i>
           </span>
         </div>
