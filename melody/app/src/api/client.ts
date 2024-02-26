@@ -5,6 +5,7 @@ import { Buffer } from "buffer";
 import { API_URL, ARRAY_BUFFER, BINARY } from "@/api/constants";
 
 import { AuthorizationCode } from "@/api/models/code";
+import { Client } from "@/api/models/client";
 import { Tokens } from "@/api/models/tokens";
 import { User } from "@/api/models/user";
 import { UserSettings } from "@/api/models/userSettings";
@@ -20,18 +21,19 @@ import {
     type RefreshTokenData,
     refreshTokenDataIntoData,
 } from "@/api/data/tokens";
+import { userSettingsDataIntoType, type UserSettingsData } from "@/api/data/userSettings";
 import { verificationDataIntoType, type VerificationData } from "@/api/data/verification";
 
-import { authorizationDefault, authorizationDefaultHeader, authorizationHeader } from "@/api/authorization";
+import { authorizationDefaultHeader, authorizationHeader } from "@/api/authorization";
 
 import { type Nullable } from "@/nullable";
 
-export const instance = axios.create({
+const instance = axios.create({
     baseURL: API_URL,
     withCredentials: true,
 });
 
-export class Client {
+export class ClientContainer {
     nullableTokens: Nullable<Tokens>;
 
     get tokens() {
@@ -55,7 +57,11 @@ export class Client {
     }
 
     async authorize(authorizeData: AuthorizeData) {
-        const {data} = await instance.postForm("/authorize", authorizeDataIntoType(authorizeData));
+        const {data} = await instance.postForm(
+            "/authorize",
+            authorizeDataIntoType(authorizeData),
+            {headers: authorizationHeader(this.tokens)},
+        );
 
         return AuthorizationCode.fromModel(data);
     }
@@ -121,4 +127,22 @@ export class Client {
 
         return UserSettings.fromModel(data);
     }
+
+    async updateSelfSettings(userSettingsData: UserSettingsData) {
+        await instance.put(
+            "/me/settings",
+            userSettingsDataIntoType(userSettingsData),
+            {headers: authorizationHeader(this.tokens)},
+        );
+    }
+
+    async fetchClient(clientId: string) {
+        const {data} = await instance.get(
+            `/clients/${clientId}`, {headers: authorizationHeader(this.tokens)}
+        );
+
+        return Client.fromModel(data);
+    }
 }
+
+export default instance;

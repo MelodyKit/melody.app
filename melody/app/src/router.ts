@@ -1,16 +1,16 @@
 import { createRouter, createWebHistory } from "vue-router";
 
+import ForgotForm from "@/components/ForgotForm.vue";
+import RegisterForm from "@/components/RegisterForm.vue";
+import ResetForm from "@/components/ResetForm.vue";
+import VerificationForm from "@/components/VerificationForm.vue";
 import AuthorizeView from "@/views/AuthorizeView.vue";
-import ForgotView from "@/views/ForgotView.vue";
 import HomeView from "@/views/HomeView.vue";
 import LibraryView from "@/views/LibraryView.vue";
 import PlaylistView from "@/views/PlaylistView.vue";
-import RegisterView from "@/views/RegisterView.vue";
-import ResetView from "@/views/ResetView.vue";
 import SearchView from "@/views/SearchView.vue";
 import SettingsView from "@/views/SettingsView.vue";
 import UserView from "@/views/UserView.vue";
-import VerificationView from "@/views/VerificationView.vue";
 
 const routes = [
   {
@@ -36,22 +36,22 @@ const routes = [
   {
     path: "/register",
     name: "register",
-    component: RegisterView,
+    component: RegisterForm,
   },
   {
     path: "/verify",
     name: "verification",
-    component: VerificationView,
+    component: VerificationForm,
   },
   {
     path: "/forgot",
     name: "forgot",
-    component: ForgotView,
+    component: ForgotForm,
   },
   {
     path: "/reset",
     name: "reset",
-    component: ResetView,
+    component: ResetForm,
   },
   {
     path: "/me/settings",

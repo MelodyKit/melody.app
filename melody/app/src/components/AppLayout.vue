@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col h-screen bg-white dark:bg-black" v-if="isAuthorized()">
+  <div v-if="isTokensStoreLoaded()" class="flex flex-col h-screen bg-white dark:bg-black">
     <div class="flex grow justify-between z-40">
       <SideBar/>
       <div class="flex flex-col grow">
@@ -20,14 +20,19 @@
 </template>
 
 <script setup lang="ts">
-import { isAuthorized } from "@/checks";
-
 import LoginForm from "@/components/LoginForm.vue";
 import PlayerControls from "@/components/PlayerControls.vue";
 import SmallMenu from "@/components/SmallMenu.vue";
 import SideBar from "@/components/SideBar.vue";
 
+import { isTokensStoreLoaded } from "@/checks";
+
+const DEFAULT_TITLE = "MelodyKit";
+
 const props = defineProps({
-  title: String
+  title: {
+    type: String,
+    default: DEFAULT_TITLE,
+  }
 });
 </script>

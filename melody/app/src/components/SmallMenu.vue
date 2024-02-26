@@ -1,7 +1,7 @@
 <template>
-  <Menu v-if="isLoaded()" as="div" :class="['relative w-fit text-left']">
+  <Menu as="div" class="relative w-fit text-left" v-if="self">
     <MenuButton class="inline-flex w-full items-center justify-center rounded-full bg-neutral-200 dark:bg-black text-neutral-900 dark:text-neutral-50 hover:bg-neutral-100 dark:hover:bg-neutral-800 focus:outline-none gap-x-2 pr-4">
-      <img class="h-10 w-auto rounded-full" :src="image"/>
+      <img class="h-10 w-auto rounded-full" :src="image || ICON_URL"/>
       <span>{{ self.name }}</span>
     </MenuButton>
     <MenuItems class="absolute py-1 px-1 mt-2 w-52 divide-y divide-neutral-100 dark:divide-neutral-700 rounded-md bg-neutral-200 dark:bg-neutral-800 text-neutral-900 dark:text-neutral-50 focus:outline-none right-2">
@@ -23,44 +23,43 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
+import { useRouter } from "vue-router";
 
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
 
-import { isLoaded } from "@/checks";
-import { useSelfStore } from "@/stores/self";
+import useSWRV from "swrv";
+
+import { BASE64 } from "@/constants";
+
+import { ICON_URL } from "@/api/constants";
+
 import { useTokensStore } from "@/stores/tokens";
+
 import { constructImage } from "@/images";
+import { selfImageKey, selfKey } from "@/keys";
 
-const self = computed(() => {
-  const store = useSelfStore();
+const store = useTokensStore();
+const client = store.stateClient;
 
-  return store.stateSelf;
-});
+const { data: self } = useSWRV(
+  selfKey(),
+  async key => await client.fetchSelf(),
+);
 
-const image = computed(() => {
-  const store = useSelfStore();
+const { data: image } = useSWRV(
+  selfImageKey(),
+  async key => await client.fetchSelfImage().then(
+    buffer => constructImage(buffer.toString(BASE64))
+  ),
+)
 
-  return constructImage(store.stateImage);
-})
+const router = useRouter();
 
 const logout = async () => {
-  const tokensStore = useTokensStore();
+  const store = useTokensStore();
 
-  await tokensStore.revoke();
+  await store.revoke();
 
-  const selfStore = useSelfStore();
-
-  selfStore.removeAll();
+  await router.push("/");
 };
-
-const setup = async () => {
-  const store = useSelfStore();
-
-  if (!store.loaded) {
-    await store.fetchAll();
-  }
-}
-
-setup();
 </script>

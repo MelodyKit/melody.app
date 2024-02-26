@@ -55,17 +55,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
+import { PlayerSettings } from '@/api/models/playerSettings';
 
-import { useSelfStore } from "@/stores/self";
-
-const currentPlayerSettings = computed(() => {
-  const store = useSelfStore();
-
-  store.ensureLocalPlayerSettings();
-
-  return store.stateLocalPlayerSettings;
-});
+const currentPlayerSettings = PlayerSettings.default();
 
 // TODO
 

@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 
-import { Client } from "@/api/client";
+import { ClientContainer } from "@/api/client";
 
 import { type LoginData } from "@/api/data/login";
 import { type ResetDataAndToken } from "@/api/data/reset";
@@ -22,7 +22,7 @@ export const useTokensStore = defineStore(
             }
         ),
         getters: {
-            authorized: (state) => state.tokens != null,
+            loaded: (state) => state.tokens != null,
             stateTokens: (state) => {
                 const tokens = state.tokens;
 
@@ -33,7 +33,7 @@ export const useTokensStore = defineStore(
                 return tokens;
             },
             stateClient: (state) => {
-                return new Client(state.tokens);
+                return new ClientContainer(state.tokens);
             }
         },
         actions: {
