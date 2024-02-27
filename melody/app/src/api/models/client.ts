@@ -12,13 +12,13 @@ export interface ClientType extends NamedType {
     description: Nullable<string>;
 }
 
-export function clientTypeFromModel(model: ClientModel): ClientType {
+export const clientTypeFromModel = (model: ClientModel): ClientType => {
     return {
         ...namedTypeFromModel(model),
         creator: namedTypeFromModel(model.creator),
         description: model.description,
     };
-}
+};
 
 export class Client extends Named {
     creator: Named;

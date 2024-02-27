@@ -14,7 +14,7 @@ export interface TokensType {
     scope: string;
 }
 
-export function tokensTypeFromModel(model: TokensModel): TokensType {
+export const tokensTypeFromModel = (model: TokensModel): TokensType => {
     return {
         accessToken: model.access_token,
         refreshToken: model.refresh_token,
@@ -22,9 +22,7 @@ export function tokensTypeFromModel(model: TokensModel): TokensType {
         expiresIn: model.expires_in,
         scope: model.scope,
     };
-}
-
-const SCOPE_SEPARATOR = " ";
+};
 
 export class Tokens {
     accessToken: string;
@@ -35,16 +33,6 @@ export class Tokens {
 
     static fromModel(model: TokensModel) {
         return new this(tokensTypeFromModel(model));
-    }
-
-    get scopes() {
-        const scope = this.scope;
-
-        return scope ? scope.split(SCOPE_SEPARATOR) : [];
-    }
-
-    set scopes(value: string[]) {
-        this.scope = value.join(SCOPE_SEPARATOR);
     }
 
     constructor(tokens: TokensType) {

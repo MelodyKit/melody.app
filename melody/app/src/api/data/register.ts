@@ -10,10 +10,10 @@ export interface RegisterData {
     password: string;
 }
 
-export function registerDataIntoType(data: RegisterData): RegisterData {
+export const registerDataIntoType = (data: RegisterData): RegisterData => {
     return {
         name: data.name,
         email: data.email,
         password: data.password,
     };
-}
+};

@@ -7,7 +7,7 @@ export interface ForgotForm {
     code: Nullable<string>;
 }
 
-export function forgotFormIntoData(form: ForgotForm): ForgotData {
+export const forgotFormIntoData = (form: ForgotForm): ForgotData => {
     const email = form.email;
 
     if (email == null) {
@@ -17,4 +17,4 @@ export function forgotFormIntoData(form: ForgotForm): ForgotData {
     const code = form.code;
 
     return {email, code};
-}
+};

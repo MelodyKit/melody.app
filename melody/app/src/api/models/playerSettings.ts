@@ -14,14 +14,14 @@ export interface PlayerSettingsType {
     volume: number;
 }
 
-export function playerSettingsTypeFromModel(model: PlayerSettingsModel): PlayerSettingsType {
+export const playerSettingsTypeFromModel = (model: PlayerSettingsModel): PlayerSettingsType => {
     return {
         playing: model.playing,
         shuffle: model.shuffle,
         repeat: model.repeat as RepeatLiteral,  // TODO: validate?
         volume: model.volume,
     };
-}
+};
 
 export const DEFAULT_PLAYING = false;
 export const DEFAULT_SHUFFLE = false;

@@ -6,8 +6,8 @@ export interface VerificationData {
     verificationCode: string;
 }
 
-export function verificationDataIntoType(data: VerificationData): VerificationDataType {
+export const verificationDataIntoType = (data: VerificationData): VerificationDataType => {
     return {
         verification_code: data.verificationCode
     };
-}
+};

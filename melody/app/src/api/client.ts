@@ -2,7 +2,7 @@ import axios from "axios";
 
 import { Buffer } from "buffer";
 
-import { API_URL, ARRAY_BUFFER, BINARY } from "@/api/constants";
+import { API_URL, ARRAY_BUFFER } from "@/api/constants";
 
 import { AuthorizationCode } from "@/api/models/code";
 import { Client } from "@/api/models/client";
@@ -117,7 +117,7 @@ export class ClientContainer {
             "/me/image", {headers: authorizationHeader(this.tokens), responseType: ARRAY_BUFFER}
         );
 
-        return Buffer.from(data, BINARY);
+        return Buffer.from(data);
     }
 
     async fetchSelfSettings() {

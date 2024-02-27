@@ -1,3 +1,6 @@
+import { unique } from "@/api/iters";
+import { isNumber } from "@/api/typing";
+
 export enum ErrorCode {
     Base = 10000,
     BadRequest = 10400,
@@ -82,3 +85,5 @@ export enum ErrorCode {
 }
 
 export type ErrorCodeLiteral = `${ErrorCode}` extends `${infer V extends number}` ? V : never;
+
+export const ErrorCodes = unique(Object.values(ErrorCode).filter(isNumber)) as ErrorCode[];

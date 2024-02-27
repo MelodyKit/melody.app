@@ -9,4 +9,3 @@ export const ICON_PATH = "/static/images/icon.png";
 export const ICON_URL = `${BASE_URL}${ICON_PATH}`;
 
 export const ARRAY_BUFFER = "arraybuffer";
-export const BINARY = "binary";

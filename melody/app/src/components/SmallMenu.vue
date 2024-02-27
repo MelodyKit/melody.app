@@ -29,13 +29,11 @@ import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
 
 import useSWRV from "swrv";
 
-import { BASE64 } from "@/constants";
-
 import { ICON_URL } from "@/api/constants";
 
 import { useTokensStore } from "@/stores/tokens";
 
-import { constructImage } from "@/images";
+import { constructUserImage } from "@/images";
 import { selfImageKey, selfKey } from "@/keys";
 
 const store = useTokensStore();
@@ -48,10 +46,8 @@ const { data: self } = useSWRV(
 
 const { data: image } = useSWRV(
   selfImageKey(),
-  async key => await client.fetchSelfImage().then(
-    buffer => constructImage(buffer.toString(BASE64))
-  ),
-)
+  async key => await client.fetchSelfImage().then(constructUserImage),
+);
 
 const router = useRouter();
 

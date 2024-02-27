@@ -1,8 +1,10 @@
 import axios, { AxiosError, type AxiosInstance, type InternalAxiosRequestConfig } from "axios";
 
+import { useToast } from "vue-toastification";
+
 import { AUTHORIZATION, authorization } from "@/api/authorization";
 import { ErrorCode } from "@/api/codes";
-import { Error as ApiError } from "@/api/models/error";
+import { isErrorType } from "@/api/models/error";
 import { Tokens } from "@/api/models/tokens";
 
 import { useTokensStore } from "@/stores/tokens";
@@ -38,14 +40,35 @@ const setupApi = (instance: AxiosInstance) => {
 
     instance.interceptors.response.use(
         (response) => response,
-        async (error: AxiosError<ApiError>) => {
-            const code = error.response?.data.code;
+        async (error: AxiosError<any>) => {
+            const toast = useToast();
+
+            const response = error.response;
+
+            if (!response) {
+                toast.error("no response; unknown error");
+
+                return error;
+            }
+
+            const data = response.data;
+
+            if (!isErrorType(data)) {
+                toast.error("unknown error");
+
+                return error;
+            }
+
+            const code = data.code as ErrorCode;
+            const message = data.message;
 
             if (code == ErrorCode.AuthAccessTokenInvalid) {
                 const config = error.config;
 
                 if (!config) {
-                    throw new Error("config is not present; can not retry");
+                    toast.error("config is not present; can not retry");
+
+                    return error;
                 }
 
                 const tokens = await refreshTokens();
@@ -56,12 +79,16 @@ const setupApi = (instance: AxiosInstance) => {
             if (code == ErrorCode.AuthRefreshTokenInvalid) {
                 removeTokens();
 
-                throw new Error("refresh failed; tokens removed");
+                toast.error("refresh failed; tokens removed");
+
+                return error;
             }
 
-            throw error;
+            toast.error(`${message} (code ${code})`);
+
+            return error;
         }
     )
-}
+};
 
 export default setupApi;

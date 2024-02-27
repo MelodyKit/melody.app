@@ -6,9 +6,11 @@ export interface BaseType {
     id: string;
 }
 
-export function baseTypeFromModel(model: BaseModel): BaseType {
-    return {id: model.id};
-}
+export const baseTypeFromModel = (model: BaseModel): BaseType => {
+    return {
+        id: model.id
+    };
+};
 
 export class Base {
     id: string;

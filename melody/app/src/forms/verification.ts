@@ -6,7 +6,7 @@ export interface VerificationForm {
     verificationCode: Nullable<string>;
 }
 
-export function verificationFormIntoData(form: VerificationForm): VerificationData {
+export const verificationFormIntoData = (form: VerificationForm): VerificationData => {
     const verificationCode = form.verificationCode;
 
     if (verificationCode == null) {
@@ -14,4 +14,4 @@ export function verificationFormIntoData(form: VerificationForm): VerificationDa
     }
 
     return {verificationCode};
-}
+};

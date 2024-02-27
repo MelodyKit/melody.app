@@ -8,12 +8,12 @@ export interface NamedType extends TrackedType {
     name: string;
 }
 
-export function namedTypeFromModel(model: NamedModel): NamedType {
+export const namedTypeFromModel = (model: NamedModel): NamedType => {
     return {
         ...trackedTypeFromModel(model),
         name: model.name,
     };
-}
+};
 
 export class Named extends Tracked {
     name: string;

@@ -16,7 +16,7 @@ export interface UserSettingsData {
     privacyType: PrivacyType;
 }
 
-export function userSettingsDataIntoType(data: UserSettingsData): UserSettingsDataType {
+export const userSettingsDataIntoType = (data: UserSettingsData): UserSettingsDataType => {
     return {
         name: data.name,
         explicit: data.explicit,
@@ -24,4 +24,4 @@ export function userSettingsDataIntoType(data: UserSettingsData): UserSettingsDa
         platform: data.platform as PlatformLiteral,
         privacy_type: data.privacyType as PrivacyTypeLiteral,
     };
-}
+};

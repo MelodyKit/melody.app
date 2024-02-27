@@ -10,9 +10,9 @@ export interface ForgotData {
     code: Nullable<string>;
 }
 
-export function forgotDataIntoType(data: ForgotData): ForgotDataType {
+export const forgotDataIntoType = (data: ForgotData): ForgotDataType => {
     return {
         email: data.email,
         code: data.code,
     };
-}
+};

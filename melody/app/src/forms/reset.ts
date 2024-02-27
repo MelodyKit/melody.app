@@ -8,7 +8,7 @@ export interface ResetForm {
     confirm: Nullable<string>;
 }
 
-export function resetFormIntoDataAndToken(form: ResetForm): ResetDataAndToken {
+export const resetFormIntoDataAndToken = (form: ResetForm): ResetDataAndToken => {
     const token = form.token;
 
     if (token == null) {

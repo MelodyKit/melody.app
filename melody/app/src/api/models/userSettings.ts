@@ -16,7 +16,7 @@ export interface UserSettingsType {
     privacyType: PrivacyTypeLiteral;
 }
 
-export function userSettingsTypeFromModel(model: UserSettingsModel): UserSettingsType {
+export const userSettingsTypeFromModel = (model: UserSettingsModel): UserSettingsType => {
     return {
         name: model.name,
         explicit: model.explicit,
@@ -24,7 +24,7 @@ export function userSettingsTypeFromModel(model: UserSettingsModel): UserSetting
         platform: model.platform as PlatformLiteral,  // TODO: validate?
         privacyType: model.privacy_type as PrivacyTypeLiteral,  // TODO: validate?
     };
-}
+};
 
 export class UserSettings {
     name: string;

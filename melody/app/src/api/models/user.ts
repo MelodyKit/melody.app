@@ -26,7 +26,7 @@ export interface UserType extends EntityType {
     discordId: Nullable<string>;
 }
 
-export function userTypeFromModel(model: UserModel): UserType {
+export const userTypeFromModel = (model: UserModel): UserType => {
     return {
         ...entityTypeFromModel(model),
         followerCount: model.follower_count,
@@ -35,7 +35,7 @@ export function userTypeFromModel(model: UserModel): UserType {
         privacyType: model.privacy_type as PrivacyTypeLiteral,  // TODO: validate?
         discordId: model.discord_id,
     };
-}
+};
 
 export class User extends Entity {
     followerCount: number;

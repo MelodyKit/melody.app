@@ -1,5 +1,5 @@
 <template>
-  <section v-if="client">
+  <section v-if="client && authorizeData">
     <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen">
       <div class="w-full bg-neutral-50 rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-neutral-800 dark:border-neutral-700">
         <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -7,8 +7,14 @@
           <h1 class="text-xl text-neutral-900 md:text-2xl dark:text-neutral-50">
             Authorize <span class="text-transparent bg-clip-text bg-gradient-to-b from-melody-purple to-melody-blue">{{ client.name }}</span> by <span class="text-transparent bg-clip-text bg-gradient-to-b from-melody-purple to-melody-blue">{{ client.creator.name }}</span>
           </h1>
+          <ul v-if="scopes" class="list-disc list-inside">
+            This will grant the application:
+            <li v-for="scope in scopes">
+              {{ describeScope(scope) }}
+            </li>
+          </ul>
           <section>
-            You will be redirected to <span class="text-transparent bg-clip-text bg-gradient-to-b from-melody-purple to-melody-blue">{{ redirectUri }}</span>
+            You will be redirected to <span class="text-transparent bg-clip-text bg-gradient-to-b from-melody-purple to-melody-blue">{{ authorizeData.redirectUri }}</span>
           </section>
           <form class="space-y-4 md:space-y-6" @submit.prevent="authorize">
             <button type="submit" class="w-full text-neutral-900 dark:text-neutral-50 bg-gradient-to-b from-melody-purple to-melody-blue rounded-lg px-5 py-2.5 text-center">Authorize</button>
@@ -20,64 +26,83 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue";
 import { useRoute } from "vue-router";
+import { useToast } from "vue-toastification";
 
 import useSWRV from "swrv";
 
+import { describeScope, fromScope, isDescribedScope } from "@/scopes";
+
 import { GRADIENT_URL } from "@/api/constants";
+import { isString } from "@/api/typing";
 import { useTokensStore } from "@/stores/tokens";
-import { SCOPE_SEPARATOR } from "@/scopes";
 import { clientKey } from "@/keys";
 
 const route = useRoute();
 
+const toast = useToast();
+
 const query = route.query;
 
-const clientId = query.client_id;
+const parseAuthorizeData = () => {
+  const clientId = query.client_id;
+  const redirectUri = query.redirect_uri;
+  const state = query.state;
+  const scope = query.scope;
 
-if (typeof clientId != "string") {
-  throw new Error("invalid client ID");
-}
+  if (!isString(clientId)) {
+    toast.error("invalid client ID");
 
-const redirectUri = query.redirect_uri;
+    return null;
+  }
 
-if (typeof redirectUri != "string") {
-  throw new Error("invalid redirect URI");
-}
+  if (!isString(redirectUri)) {
+    toast.error("invalid redirect URI");
 
-const state = query.state;
+    return null;
+  }
 
-if (typeof state != "string") {
-  throw new Error("invalid state");
-}
+  if (!isString(state)) {
+    toast.error("invalid state");
 
-const maybeScope = query.scope;
+    return null;
+  }
 
-if (maybeScope != null && typeof maybeScope != "string") {
-  throw new Error("invalid scope");
-}
+  if (!isString(scope)) {
+    toast.error("invalid scope");
 
-const scopes = maybeScope ? maybeScope.split(SCOPE_SEPARATOR) : [];
+    return null;
+  }
 
-const scope = scopes.join(SCOPE_SEPARATOR);
+  return {
+    clientId,
+    redirectUri,
+    state,
+    scope,
+  };
+};
+
+const authorizeData = parseAuthorizeData();
 
 const stateClient = useTokensStore().stateClient;
 
-const { data: client } = useSWRV(
-  clientKey(clientId),
-  async key => await stateClient.fetchClient(clientId),
-);
+const client = authorizeData ? useSWRV(
+  clientKey(authorizeData.clientId),
+  () => stateClient.fetchClient(authorizeData.clientId),
+).data : ref(null);
+
+const scopes = authorizeData ? fromScope(authorizeData.scope).filter(isDescribedScope) : null;
 
 const authorize = async () => {
-  const authorizationCode = await stateClient.authorize({
-    clientId,
-    redirectUri,
-    scope,
-    state,
-  });
+  if (authorizeData == null) {
+    return;
+  }
+
+  const authorizationCode = await stateClient.authorize(authorizeData);
 
   const parameters = new URLSearchParams({...authorizationCode});
 
-  location.href = `${redirectUri}?${parameters}`;
+  location.href = `${authorizeData.redirectUri}?${parameters}`;
 };
 </script>

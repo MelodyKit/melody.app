@@ -20,7 +20,7 @@ export interface TokensData {
     clientSecret: Nullable<string>;
 }
 
-export function tokensDataIntoType(data: TokensData): TokensDataType {
+export const tokensDataIntoType = (data: TokensData): TokensDataType => {
     return {
         grant_type: data.grantType,
         redirect_uri: data.redirectUri,
@@ -29,14 +29,14 @@ export function tokensDataIntoType(data: TokensData): TokensDataType {
         client_id: data.clientId,
         client_secret: data.clientSecret,
     };
-}
+};
 
 export interface AuthorizationCodeData {
     code: string;
     redirectUri: string;
 }
 
-export function authorizationCodeDataIntoData(data: AuthorizationCodeData): TokensData {
+export const authorizationCodeDataIntoData = (data: AuthorizationCodeData): TokensData => {
     return {
         grantType: GrantType.AuthorizationCode as GrantTypeLiteral,
         redirectUri: data.redirectUri,
@@ -45,14 +45,14 @@ export function authorizationCodeDataIntoData(data: AuthorizationCodeData): Toke
         clientId: null,
         clientSecret: null,
     };
-}
+};
 
 export interface ClientCredentialsData {
     clientId: string;
     clientSecret: string;
 }
 
-export function clientCredentialsDataIntoData(data: ClientCredentialsData): TokensData {
+export const clientCredentialsDataIntoData = (data: ClientCredentialsData): TokensData => {
     return {
         grantType: GrantType.ClientCredentials as GrantTypeLiteral,
         redirectUri: null,
@@ -61,13 +61,13 @@ export function clientCredentialsDataIntoData(data: ClientCredentialsData): Toke
         clientId: data.clientId,
         clientSecret: data.clientSecret,
     };
-}
+};
 
 export interface RefreshTokenData {
     refreshToken: string;
 }
 
-export function refreshTokenDataIntoData(data: RefreshTokenData): TokensData {
+export const refreshTokenDataIntoData = (data: RefreshTokenData): TokensData => {
     return {
         grantType: GrantType.RefreshToken as GrantTypeLiteral,
         redirectUri: null,
@@ -76,4 +76,4 @@ export function refreshTokenDataIntoData(data: RefreshTokenData): TokensData {
         clientId: null,
         clientSecret: null,
     };
-}
+};

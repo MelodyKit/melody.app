@@ -16,11 +16,11 @@ interface State {
 export const useTokensStore = defineStore(
     "token",
     {
-        state: (): State => (
-            {
-                tokens: null,
-            }
-        ),
+        state: (): State => {
+            return {
+                tokens: null
+            };
+        },
         getters: {
             loaded: (state) => state.tokens != null,
             stateTokens: (state) => {

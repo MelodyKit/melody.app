@@ -33,7 +33,7 @@ export interface PlaylistType extends EntityType {
     privacyType: PrivacyTypeLiteral;
 }
 
-export function playlistTypeFromModel(model: PlaylistModel): PlaylistType {
+export const playlistTypeFromModel = (model: PlaylistModel): PlaylistType => {
     const ownerModel = model.owner;
 
     const owner = ownerModel ? userTypeFromModel(ownerModel) : null;
@@ -47,7 +47,7 @@ export function playlistTypeFromModel(model: PlaylistModel): PlaylistType {
         trackCount: model.track_count,
         privacyType: model.privacy_type as PrivacyTypeLiteral,  // TODO: validate?
     };
-}
+};
 
 export class Playlist extends Entity {
     owner: Nullable<User>;

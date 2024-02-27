@@ -1,4 +1,5 @@
 import "@/style.css";
+import "vue-toastification/dist/index.css";
 
 import app from "@/app";
 import i18n from "@/i18n";

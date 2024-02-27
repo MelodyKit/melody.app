@@ -8,7 +8,7 @@ export interface LoginForm {
     code: Nullable<string>;
 }
 
-export function loginFormIntoData(form: LoginForm): LoginData {
+export const loginFormIntoData = (form: LoginForm): LoginData => {
     const email = form.email;
 
     if (email == null) {
@@ -24,4 +24,4 @@ export function loginFormIntoData(form: LoginForm): LoginData {
     const code = form.code;
 
     return {email, password, code};
-}
+};

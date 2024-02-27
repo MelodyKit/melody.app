@@ -8,7 +8,7 @@ export interface RegisterForm {
     password: Nullable<string>;
 }
 
-export function registerFormIntoData(form: RegisterForm): RegisterData {
+export const registerFormIntoData = (form: RegisterForm): RegisterData => {
     const name = form.name;
 
     if (name == null) {
@@ -28,4 +28,4 @@ export function registerFormIntoData(form: RegisterForm): RegisterData {
     }
 
     return {name, email, password};
-}
+};

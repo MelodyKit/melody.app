@@ -1,3 +1,5 @@
+import { unique } from "@/api/iters";
+
 export enum AlbumType {
     Album = "album",
     Single = "single",
@@ -7,6 +9,8 @@ export enum AlbumType {
 
 export type AlbumTypeLiteral = `${AlbumType}`;
 
+export const AlbumTypes = unique(Object.values(AlbumType));
+
 export enum PrivacyType {
     Public = "public",
     Friends = "friends",
@@ -15,6 +19,8 @@ export enum PrivacyType {
 }
 
 export type PrivacyTypeLiteral = `${PrivacyType}`;
+
+export const PrivacyTypes = unique(Object.values(PrivacyType));
 
 export enum Platform {
     Any = "any",
@@ -26,6 +32,8 @@ export enum Platform {
 
 export type PlatformLiteral = `${Platform}`;
 
+export const PlatformTypes = unique(Object.values(Platform));
+
 export enum Repeat {
     None = "none",
     Context = "context",
@@ -35,7 +43,9 @@ export enum Repeat {
 
 export type RepeatLiteral = `${Repeat}`;
 
-export function nextRepeat(repeat: Repeat): Repeat {
+export const RepeatTypes = unique(Object.values(Repeat));
+
+export const nextRepeat = (repeat: Repeat) => {
     switch (repeat) {
         case Repeat.None:
             return Repeat.Context;
@@ -55,7 +65,9 @@ export enum Volume {
 
 export type VolumeLiteral = `${Volume}`;
 
-export function getVolume(volume: number): Volume {
+export const VolumeTypes = unique(Object.values(Volume));
+
+export const getVolume = (volume: number) => {
     if (volume > 0.75) {
         return Volume.High;
     } else if (volume > 0.25) {
@@ -74,3 +86,5 @@ export enum GrantType {
 }
 
 export type GrantTypeLiteral = `${GrantType}`;
+
+export const GrantTypes = unique(Object.values(GrantType));

@@ -3,22 +3,22 @@ import { Tokens } from "@/api/models/tokens";
 export const AUTHORIZATION = "Authorization";
 export const DEFAULT_TOKEN_TYPE = "Bearer";
 
-export function authorizationString(type: string, content: string) {
+export const authorizationString = (type: string, content: string) => {
     return `${type} ${content}`;
-}
+};
 
-export function authorizationDefault(content: string) {
+export const authorizationDefault = (content: string) => {
     return authorizationString(DEFAULT_TOKEN_TYPE, content);
-}
+};
 
-export function authorization(tokens: Tokens) {
+export const authorization = (tokens: Tokens) => {
     return authorizationString(tokens.tokenType, tokens.accessToken);
-}
+};
 
-export function authorizationDefaultHeader(content: string) {
+export const authorizationDefaultHeader = (content: string) => {
     return {[AUTHORIZATION]: authorizationDefault(content)};
-}
+};
 
-export function authorizationHeader(tokens: Tokens) {
+export const authorizationHeader = (tokens: Tokens) => {
     return {[AUTHORIZATION]: authorization(tokens)};
-}
+};

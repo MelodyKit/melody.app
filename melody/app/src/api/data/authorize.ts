@@ -12,11 +12,11 @@ export interface AuthorizeData {
     state: string;
 }
 
-export function authorizeDataIntoType(data: AuthorizeData): AuthorizeDataType {
+export const authorizeDataIntoType = (data: AuthorizeData): AuthorizeDataType => {
     return {
         client_id: data.clientId,
         redirect_uri: data.redirectUri,
         scope: data.scope,
         state: data.state,
     };
-}
+};

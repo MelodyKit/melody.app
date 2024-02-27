@@ -14,14 +14,14 @@ export interface EntityType extends NamedType {
     yandexMusicId: Nullable<string>;
 }
 
-export function entityTypeFromModel(model: EntityModel): EntityType {
+export const entityTypeFromModel = (model: EntityModel): EntityType => {
     return {
         ...namedTypeFromModel(model),
         spotifyId: model.spotify_id,
         appleMusicId: model.apple_music_id,
         yandexMusicId: model.yandex_music_id,
     };
-}
+};
 
 export class Entity extends Named {
     spotifyId: Nullable<string>;

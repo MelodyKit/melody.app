@@ -12,10 +12,10 @@ export interface LoginData {
     code: Nullable<string>;
 }
 
-export function loginDataIntoType(data: LoginData): LoginDataType {
+export const loginDataIntoType = (data: LoginData): LoginDataType => {
     return {
         email: data.email,
         password: data.password,
         code: data.code,
     };
-}
+};

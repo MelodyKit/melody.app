@@ -8,11 +8,14 @@ export interface AuthorizationCodeType {
     state: string;
 }
 
-export function authorizationCodeTypeFromModel(
+export const authorizationCodeTypeFromModel = (
     model: AuthorizationCodeModel
-): AuthorizationCodeType {
-    return {code: model.code, state: model.state};
-}
+): AuthorizationCodeType => {
+    return {
+        code: model.code,
+        state: model.state,
+    };
+};
 
 export class AuthorizationCode {
     code: string;

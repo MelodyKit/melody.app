@@ -8,12 +8,12 @@ export interface TrackedType extends BaseType {
     createdAt: string;
 }
 
-export function trackedTypeFromModel(model: TrackedModel): TrackedType {
+export const trackedTypeFromModel = (model: TrackedModel): TrackedType => {
     return {
         ...baseTypeFromModel(model),
         createdAt: model.created_at,
     };
-}
+};
 
 export class Tracked extends Base {
     createdAt: Date;
