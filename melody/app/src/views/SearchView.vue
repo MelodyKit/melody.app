@@ -1,6 +1,5 @@
 <template>
-  <AppLayout title="Search">
-  </AppLayout>
+  <AppLayout title="Search"> </AppLayout>
 </template>
 
 <script setup lang="ts">

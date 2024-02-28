@@ -13,7 +13,7 @@ export const USER_STREAMS_WRITE = "user-streams-write";
 
 export const SCOPE_SEPARATOR = " ";
 
-export const fromScope = (scope: string) => scope ? scope.split(SCOPE_SEPARATOR) : [];
+export const fromScope = (scope: string) => (scope ? scope.split(SCOPE_SEPARATOR) : []);
 export const intoScope = (scopes: string[]) => scopes.join(SCOPE_SEPARATOR);
 
 export const DESCRIBED_SCOPES = {
@@ -33,5 +33,6 @@ export const DESCRIBED_SCOPES = {
 
 export type DescribedScope = keyof typeof DESCRIBED_SCOPES;
 
-export const isDescribedScope = (scope: string): scope is DescribedScope => scope in DESCRIBED_SCOPES;
+export const isDescribedScope = (scope: string): scope is DescribedScope =>
+    scope in DESCRIBED_SCOPES;
 export const describeScope = (scope: DescribedScope) => DESCRIBED_SCOPES[scope];

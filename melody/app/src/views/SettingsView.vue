@@ -1,6 +1,6 @@
 <template>
   <AppLayout title="Settings">
-    <SettingsForm/>
+    <SettingsForm />
   </AppLayout>
 </template>
 

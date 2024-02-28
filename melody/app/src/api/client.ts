@@ -51,27 +51,31 @@ export class ClientContainer {
     }
 
     async login(loginData: LoginData) {
-        const {data} = await instance.postForm("/login", loginDataIntoType(loginData));
+        const { data } = await instance.postForm("/login", loginDataIntoType(loginData));
 
         return Tokens.fromModel(data);
     }
 
     async authorize(authorizeData: AuthorizeData) {
-        const {data} = await instance.postForm(
+        const { data } = await instance.postForm(
             "/authorize",
             authorizeDataIntoType(authorizeData),
-            {headers: authorizationHeader(this.tokens)},
+            { headers: authorizationHeader(this.tokens) },
         );
 
         return AuthorizationCode.fromModel(data);
     }
 
     async revoke() {
-        await instance.post("/revoke", null, {headers: authorizationHeader(this.tokens)});
+        await instance.post("/revoke", null, {
+            headers: authorizationHeader(this.tokens),
+        });
     }
 
     async revokeAll() {
-        await instance.post("/revoke-all", null, {headers: authorizationHeader(this.tokens)});
+        await instance.post("/revoke-all", null, {
+            headers: authorizationHeader(this.tokens),
+        });
     }
 
     async register(registerData: RegisterData) {
@@ -87,59 +91,60 @@ export class ClientContainer {
     }
 
     async reset(resetData: ResetData, token: string) {
-        await instance.postForm(
-            "/reset", resetDataIntoType(resetData), {headers: authorizationDefaultHeader(token)}
-        );
+        await instance.postForm("/reset", resetDataIntoType(resetData), {
+            headers: authorizationDefaultHeader(token),
+        });
     }
 
     async fetchTokens(tokensData: TokensData) {
-        const {data} = await instance.postForm("/tokens", tokensDataIntoType(tokensData));
+        const { data } = await instance.postForm("/tokens", tokensDataIntoType(tokensData));
 
         return Tokens.fromModel(data);
     }
 
     async refresh() {
         const refreshTokenData: RefreshTokenData = {
-            refreshToken: this.tokens.refreshToken
+            refreshToken: this.tokens.refreshToken,
         };
 
         return await this.fetchTokens(refreshTokenDataIntoData(refreshTokenData));
     }
 
     async fetchSelf() {
-        const {data} = await instance.get("/me", {headers: authorizationHeader(this.tokens)});
+        const { data } = await instance.get("/me", {
+            headers: authorizationHeader(this.tokens),
+        });
 
         return User.fromModel(data);
     }
 
     async fetchSelfImage() {
-        const {data} = await instance.get(
-            "/me/image", {headers: authorizationHeader(this.tokens), responseType: ARRAY_BUFFER}
-        );
+        const { data } = await instance.get("/me/image", {
+            headers: authorizationHeader(this.tokens),
+            responseType: ARRAY_BUFFER,
+        });
 
         return Buffer.from(data);
     }
 
     async fetchSelfSettings() {
-        const {data} = await instance.get(
-            "/me/settings", {headers: authorizationHeader(this.tokens)}
-        );
+        const { data } = await instance.get("/me/settings", {
+            headers: authorizationHeader(this.tokens),
+        });
 
         return UserSettings.fromModel(data);
     }
 
     async updateSelfSettings(userSettingsData: UserSettingsData) {
-        await instance.put(
-            "/me/settings",
-            userSettingsDataIntoType(userSettingsData),
-            {headers: authorizationHeader(this.tokens)},
-        );
+        await instance.put("/me/settings", userSettingsDataIntoType(userSettingsData), {
+            headers: authorizationHeader(this.tokens),
+        });
     }
 
     async fetchClient(clientId: string) {
-        const {data} = await instance.get(
-            `/clients/${clientId}`, {headers: authorizationHeader(this.tokens)}
-        );
+        const { data } = await instance.get(`/clients/${clientId}`, {
+            headers: authorizationHeader(this.tokens),
+        });
 
         return Client.fromModel(data);
     }

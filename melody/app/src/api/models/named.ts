@@ -1,4 +1,9 @@
-import { type TrackedModel, type TrackedType, Tracked, trackedTypeFromModel } from "@/api/models/tracked";
+import {
+    type TrackedModel,
+    type TrackedType,
+    Tracked,
+    trackedTypeFromModel,
+} from "@/api/models/tracked";
 
 export interface NamedModel extends TrackedModel {
     name: string;

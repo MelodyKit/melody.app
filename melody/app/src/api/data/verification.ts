@@ -8,6 +8,6 @@ export interface VerificationData {
 
 export const verificationDataIntoType = (data: VerificationData): VerificationDataType => {
     return {
-        verification_code: data.verificationCode
+        verification_code: data.verificationCode,
     };
 };

@@ -13,76 +13,73 @@ interface State {
     tokens: Nullable<Tokens>;
 }
 
-export const useTokensStore = defineStore(
-    "token",
-    {
-        state: (): State => {
-            return {
-                tokens: null
-            };
-        },
-        getters: {
-            loaded: (state) => state.tokens != null,
-            stateTokens: (state) => {
-                const tokens = state.tokens;
+export const useTokensStore = defineStore("token", {
+    state: (): State => {
+        return {
+            tokens: null,
+        };
+    },
+    getters: {
+        loaded: (state) => state.tokens != null,
+        stateTokens: (state) => {
+            const tokens = state.tokens;
 
-                if (tokens == null) {
-                    throw new Error("tokens are not present");
-                }
-
-                return tokens;
-            },
-            stateClient: (state) => {
-                return new ClientContainer(state.tokens);
+            if (tokens == null) {
+                throw new Error("tokens are not present");
             }
+
+            return tokens;
         },
-        actions: {
-            async login(loginData: LoginData) {
-                const client = this.stateClient;
+        stateClient: (state) => {
+            return new ClientContainer(state.tokens);
+        },
+    },
+    actions: {
+        async login(loginData: LoginData) {
+            const client = this.stateClient;
 
-                const tokens = await client.login(loginData);
+            const tokens = await client.login(loginData);
 
-                this.setTokens(tokens);
-            },
-            async refresh() {
-                const client = this.stateClient;
+            this.setTokens(tokens);
+        },
+        async refresh() {
+            const client = this.stateClient;
 
-                const tokens = await client.refresh();
+            const tokens = await client.refresh();
 
-                this.setTokens(tokens);
-            },
-            async revoke() {
-                const client = this.stateClient;
+            this.setTokens(tokens);
+        },
+        async revoke() {
+            const client = this.stateClient;
 
-                await client.revoke();
+            await client.revoke();
 
-                this.removeTokens();
-            },
-            async reset(resetDataAndToken: ResetDataAndToken) {
-                const [resetData, token] = resetDataAndToken;
+            this.removeTokens();
+        },
+        async reset(resetDataAndToken: ResetDataAndToken) {
+            const [resetData, token] = resetDataAndToken;
 
-                const client = this.stateClient;
+            const client = this.stateClient;
 
-                await client.reset(resetData, token);
+            await client.reset(resetData, token);
 
-                this.removeTokens();
-            },
-            setTokens(tokens: Tokens) {
-                this.tokens = tokens;
-            },
-            removeTokens() {
-                this.tokens = null;
+            this.removeTokens();
+        },
+        setTokens(tokens: Tokens) {
+            this.tokens = tokens;
+        },
+        removeTokens() {
+            this.tokens = null;
+        },
+    },
+    persist: {
+        serializer: {
+            serialize: (state) => JSON.stringify(state.tokens),
+            deserialize: (data) => {
+                const tokens = new Tokens(JSON.parse(data));
+
+                return { tokens };
             },
         },
-        persist: {
-            serializer: {
-                serialize: (state) => JSON.stringify(state.tokens),
-                deserialize: (data) => {
-                    const tokens = new Tokens(JSON.parse(data));
-
-                    return {tokens};
-                },
-            }
-        }
-    }
-)
+    },
+});

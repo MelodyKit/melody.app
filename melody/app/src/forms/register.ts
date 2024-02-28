@@ -27,5 +27,5 @@ export const registerFormIntoData = (form: RegisterForm): RegisterData => {
         throw new Error("password is not present");
     }
 
-    return {name, email, password};
+    return { name, email, password };
 };

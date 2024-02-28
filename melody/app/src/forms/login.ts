@@ -23,5 +23,5 @@ export const loginFormIntoData = (form: LoginForm): LoginData => {
 
     const code = form.code;
 
-    return {email, password, code};
+    return { email, password, code };
 };

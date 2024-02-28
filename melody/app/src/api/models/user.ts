@@ -1,6 +1,11 @@
 import { PrivacyType, type PrivacyTypeLiteral } from "@/api/enums";
 
-import { Entity, type EntityModel, type EntityType, entityTypeFromModel } from "@/api/models/entity";
+import {
+    Entity,
+    type EntityModel,
+    type EntityType,
+    entityTypeFromModel,
+} from "@/api/models/entity";
 
 import { type Nullable } from "@/nullable";
 
@@ -32,7 +37,7 @@ export const userTypeFromModel = (model: UserModel): UserType => {
         followerCount: model.follower_count,
         streamCount: model.stream_count,
         streamDurationMs: model.stream_duration_ms,
-        privacyType: model.privacy_type as PrivacyTypeLiteral,  // TODO: validate?
+        privacyType: model.privacy_type as PrivacyTypeLiteral, // TODO: validate?
         discordId: model.discord_id,
     };
 };

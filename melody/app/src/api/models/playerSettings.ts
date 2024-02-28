@@ -18,7 +18,7 @@ export const playerSettingsTypeFromModel = (model: PlayerSettingsModel): PlayerS
     return {
         playing: model.playing,
         shuffle: model.shuffle,
-        repeat: model.repeat as RepeatLiteral,  // TODO: validate?
+        repeat: model.repeat as RepeatLiteral, // TODO: validate?
         volume: model.volume,
     };
 };
@@ -28,7 +28,6 @@ export const DEFAULT_SHUFFLE = false;
 export const DEFAULT_REPEAT = Repeat.Default as RepeatLiteral;
 export const DEFAULT_VOLUME = 0.5;
 export const DISABLE_VOLUME = 0.0;
-
 
 export class PlayerSettings {
     playing: boolean;

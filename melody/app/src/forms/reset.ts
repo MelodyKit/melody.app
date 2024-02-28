@@ -31,5 +31,5 @@ export const resetFormIntoDataAndToken = (form: ResetForm): ResetDataAndToken =>
         throw new Error("password mismatch");
     }
 
-    return [{password}, token];
-}
+    return [{ password }, token];
+};

@@ -16,5 +16,5 @@ export const forgotFormIntoData = (form: ForgotForm): ForgotData => {
 
     const code = form.code;
 
-    return {email, code};
+    return { email, code };
 };

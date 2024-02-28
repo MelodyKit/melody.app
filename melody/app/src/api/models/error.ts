@@ -14,10 +14,10 @@ export interface ErrorType {
 
 export const errorTypeFromModel = (model: ErrorModel): ErrorType => {
     return {
-        code: model.code as ErrorCodeLiteral,  // SAFETY: allow unknown codes here
+        code: model.code as ErrorCodeLiteral, // SAFETY: allow unknown codes here
         message: model.message,
-    }
-}
+    };
+};
 
 export const isErrorType = (error: any): error is ErrorType => {
     return error && isNumber(error.code) && isString(error.message);

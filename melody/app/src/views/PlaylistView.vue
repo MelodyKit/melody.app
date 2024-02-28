@@ -1,6 +1,5 @@
 <template>
-  <AppLayout title="Playlist">
-  </AppLayout>
+  <AppLayout title="Playlist"> </AppLayout>
 </template>
 
 <script setup lang="ts">

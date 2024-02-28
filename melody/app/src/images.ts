@@ -16,4 +16,4 @@ export const constructImage = (buffer: Buffer) => {
 
 export const constructUserImage = (buffer: Nullable<Buffer>) => {
     return buffer ? constructImage(buffer) : ICON_URL;
-}
+};

@@ -1,6 +1,5 @@
 <template>
-  <AppLayout title="Library">
-  </AppLayout>
+  <AppLayout title="Library"> </AppLayout>
 </template>
 
 <script setup lang="ts">

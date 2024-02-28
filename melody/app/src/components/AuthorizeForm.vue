@@ -1,11 +1,22 @@
 <template>
   <section v-if="client && authorizeData">
     <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen">
-      <div class="w-full bg-neutral-50 rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-neutral-800 dark:border-neutral-700">
+      <div
+        class="w-full bg-neutral-50 rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-neutral-800 dark:border-neutral-700"
+      >
         <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-          <img class="w-auto h-10" :src="GRADIENT_URL" alt="MelodyKit"/>
+          <img class="w-auto h-10" :src="GRADIENT_URL" alt="MelodyKit" />
           <h1 class="text-xl text-neutral-900 md:text-2xl dark:text-neutral-50">
-            Authorize <span class="text-transparent bg-clip-text bg-gradient-to-b from-melody-purple to-melody-blue">{{ client.name }}</span> by <span class="text-transparent bg-clip-text bg-gradient-to-b from-melody-purple to-melody-blue">{{ client.creator.name }}</span>
+            Authorize
+            <span
+              class="text-transparent bg-clip-text bg-gradient-to-b from-melody-purple to-melody-blue"
+              >{{ client.name }}</span
+            >
+            by
+            <span
+              class="text-transparent bg-clip-text bg-gradient-to-b from-melody-purple to-melody-blue"
+              >{{ client.creator.name }}</span
+            >
           </h1>
           <ul v-if="scopes" class="list-disc list-inside">
             This will grant the application:
@@ -14,10 +25,19 @@
             </li>
           </ul>
           <section>
-            You will be redirected to <span class="text-transparent bg-clip-text bg-gradient-to-b from-melody-purple to-melody-blue">{{ authorizeData.redirectUri }}</span>
+            You will be redirected to
+            <span
+              class="text-transparent bg-clip-text bg-gradient-to-b from-melody-purple to-melody-blue"
+              >{{ authorizeData.redirectUri }}</span
+            >
           </section>
           <form class="space-y-4 md:space-y-6" @submit.prevent="authorize">
-            <button type="submit" class="w-full text-neutral-900 dark:text-neutral-50 bg-gradient-to-b from-melody-purple to-melody-blue rounded-lg px-5 py-2.5 text-center">Authorize</button>
+            <button
+              type="submit"
+              class="w-full text-neutral-900 dark:text-neutral-50 bg-gradient-to-b from-melody-purple to-melody-blue rounded-lg px-5 py-2.5 text-center"
+            >
+              Authorize
+            </button>
           </form>
         </div>
       </div>
@@ -87,10 +107,11 @@ const authorizeData = parseAuthorizeData();
 
 const stateClient = useTokensStore().stateClient;
 
-const client = authorizeData ? useSWRV(
-  clientKey(authorizeData.clientId),
-  () => stateClient.fetchClient(authorizeData.clientId),
-).data : ref(null);
+const client = authorizeData
+  ? useSWRV(clientKey(authorizeData.clientId), () =>
+      stateClient.fetchClient(authorizeData.clientId),
+    ).data
+  : ref(null);
 
 const scopes = authorizeData ? fromScope(authorizeData.scope).filter(isDescribedScope) : null;
 
@@ -101,7 +122,7 @@ const authorize = async () => {
 
   const authorizationCode = await stateClient.authorize(authorizeData);
 
-  const parameters = new URLSearchParams({...authorizationCode});
+  const parameters = new URLSearchParams({ ...authorizationCode });
 
   location.href = `${authorizeData.redirectUri}?${parameters}`;
 };

@@ -21,8 +21,8 @@ export const userSettingsTypeFromModel = (model: UserSettingsModel): UserSetting
         name: model.name,
         explicit: model.explicit,
         autoplay: model.autoplay,
-        platform: model.platform as PlatformLiteral,  // TODO: validate?
-        privacyType: model.privacy_type as PrivacyTypeLiteral,  // TODO: validate?
+        platform: model.platform as PlatformLiteral, // TODO: validate?
+        privacyType: model.privacy_type as PrivacyTypeLiteral, // TODO: validate?
     };
 };
 

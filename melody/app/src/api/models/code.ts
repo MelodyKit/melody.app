@@ -9,7 +9,7 @@ export interface AuthorizationCodeType {
 }
 
 export const authorizationCodeTypeFromModel = (
-    model: AuthorizationCodeModel
+    model: AuthorizationCodeModel,
 ): AuthorizationCodeType => {
     return {
         code: model.code,

@@ -2,8 +2,7 @@ import { createI18n } from "vue-i18n";
 
 const DEFAULT_LOCALE = "en";
 
-const MESSAGES = {
-};
+const MESSAGES = {};
 
 const i18n = createI18n({
     fallbackLocale: DEFAULT_LOCALE,

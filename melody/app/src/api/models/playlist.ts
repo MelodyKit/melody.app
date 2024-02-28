@@ -1,6 +1,11 @@
 import { PrivacyType, type PrivacyTypeLiteral } from "@/api/enums";
 
-import { Entity, type EntityModel, type EntityType, entityTypeFromModel } from "@/api/models/entity";
+import {
+    Entity,
+    type EntityModel,
+    type EntityType,
+    entityTypeFromModel,
+} from "@/api/models/entity";
 import { User, type UserModel, type UserType, userTypeFromModel } from "@/api/models/user";
 
 import { type Nullable } from "@/nullable";
@@ -45,7 +50,7 @@ export const playlistTypeFromModel = (model: PlaylistModel): PlaylistType => {
         description: model.description,
         durationMs: model.duration_ms,
         trackCount: model.track_count,
-        privacyType: model.privacy_type as PrivacyTypeLiteral,  // TODO: validate?
+        privacyType: model.privacy_type as PrivacyTypeLiteral, // TODO: validate?
     };
 };
 

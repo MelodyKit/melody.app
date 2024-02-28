@@ -8,7 +8,7 @@ export interface BaseType {
 
 export const baseTypeFromModel = (model: BaseModel): BaseType => {
     return {
-        id: model.id
+        id: model.id,
     };
 };
 

@@ -13,5 +13,5 @@ export const verificationFormIntoData = (form: VerificationForm): VerificationDa
         throw new Error("verification code is not present");
     }
 
-    return {verificationCode};
+    return { verificationCode };
 };

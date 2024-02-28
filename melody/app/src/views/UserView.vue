@@ -1,6 +1,5 @@
 <template>
-  <AppLayout title="User">
-  </AppLayout>
+  <AppLayout title="User"> </AppLayout>
 </template>
 
 <script setup lang="ts">

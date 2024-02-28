@@ -30,13 +30,11 @@ const removeTokens = () => {
 };
 
 const setupApi = (instance: AxiosInstance) => {
-    instance.interceptors.request.use(
-        (config) => {
-            config.params = {...config.params, timestamp: Date.now()};
+    instance.interceptors.request.use((config) => {
+        config.params = { ...config.params, timestamp: Date.now() };
 
-            return config;
-        }
-    );
+        return config;
+    });
 
     instance.interceptors.response.use(
         (response) => response,
@@ -87,8 +85,8 @@ const setupApi = (instance: AxiosInstance) => {
             toast.error(`${message} (code ${code})`);
 
             return error;
-        }
-    )
+        },
+    );
 };
 
 export default setupApi;

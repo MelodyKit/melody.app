@@ -54,7 +54,7 @@ export const nextRepeat = (repeat: Repeat) => {
         case Repeat.One:
             return Repeat.None;
     }
-}
+};
 
 export enum Volume {
     Off = "off",
@@ -77,7 +77,7 @@ export const getVolume = (volume: number) => {
     } else {
         return Volume.Off;
     }
-}
+};
 
 export enum GrantType {
     AuthorizationCode = "authorization_code",

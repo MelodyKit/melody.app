@@ -16,9 +16,9 @@ export const authorization = (tokens: Tokens) => {
 };
 
 export const authorizationDefaultHeader = (content: string) => {
-    return {[AUTHORIZATION]: authorizationDefault(content)};
+    return { [AUTHORIZATION]: authorizationDefault(content) };
 };
 
 export const authorizationHeader = (tokens: Tokens) => {
-    return {[AUTHORIZATION]: authorization(tokens)};
+    return { [AUTHORIZATION]: authorization(tokens) };
 };

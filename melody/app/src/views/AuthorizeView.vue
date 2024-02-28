@@ -1,6 +1,6 @@
 <template>
-  <AuthorizeForm v-if="isTokensStoreLoaded()"/>
-  <LoginForm v-else/>
+  <AuthorizeForm v-if="isTokensStoreLoaded()" />
+  <LoginForm v-else />
 </template>
 
 <script setup lang="ts">
