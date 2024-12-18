@@ -1,0 +1,29 @@
+product-name = "MelodyKit"
+version = "0.1.0"
+identifier = "com.melody.kit"
+main-binary-name = "MelodyKit"
+
+[build]
+before-dev-command = "deno task dev"
+dev-url = "http://127.0.0.1:1369"
+before-build-command = "deno task build"
+frontend-dist = "../build"
+
+[app.tray-icon]
+icon-path = "icons/icon.png"
+title = "MelodyKit"
+tooltip = "MelodyKit"
+
+[[app.windows]]
+title = "MelodyKit"
+width = 800
+height = 600
+center = true
+
+[bundle]
+active = true
+targets = "all"
+icon = ["icons/**/*"]
+category = "Music"
+copyright = "Copyright (c) 2022-present MelodyKit"
+publisher = "MelodyKit"

@@ -1,0 +1,31 @@
+[package]
+name = "melody-app"
+version = "0.1.0"
+authors = ["MelodyKit <hello@melodykit.app>"]
+edition = "2021"
+description = "All your music, in one place."
+documentation = "https://docs.melodykit.app/"
+readme = "README.md"
+homepage = "https://melodykit.app/"
+repository = "https://github.com/MelodyKit/melody.app"
+license = "MIT"
+
+[lib]
+name = "melody_app_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies.tauri-build]
+version = "2.0.3"
+default-features = false
+features = ["config-toml"]
+
+[dependencies.tauri]
+version = "2.1.1"
+features = ["tray-icon", "config-toml"]
+
+[dependencies.serde]
+version = "1.0.215"
+features = ["derive"]
+
+[dependencies.serde_json]
+version = "1.0.132"

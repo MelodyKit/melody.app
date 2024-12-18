@@ -1,0 +1,19 @@
+# classic :)
+
+node_modules
+
+# build artifacts
+
+build/
+
+# svelte
+
+.svelte-kit/
+
+# packaging
+
+package/
+
+# remove if lock file should be included
+
+deno.lock
